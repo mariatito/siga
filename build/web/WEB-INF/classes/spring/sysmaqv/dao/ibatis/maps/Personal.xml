@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!--
+    Document   : Personal.xml
+    Created on : 18 de junio de 2010, 15:51
+    Author     : MARCO ANTONIO QUENTA VELASCO
+    Description:
+        Purpose of the document follows.
+-->
+
+<sqlMap namespace="Personal">
+    <typeAlias alias="Personal" type="spring.sysmaqv.domain.Personal"/>
+    <typeAlias alias="Estudiante" type="spring.sysmaqv.domain.Estudiante"/>
+    <typeAlias alias="Modalidad" type="spring.sysmaqv.domain.Modalidad"/>
+    <typeAlias alias="Tarea" type="spring.sysmaqv.domain.Tarea"/>
+    <typeAlias alias="Docente" type="spring.sysmaqv.domain.Docente"/>
+
+    <update id="setCambiarPassword">
+        update personal set clave=#clave# where id_personal=#id_personal#;
+    </update>
+    <select id="personalActivo" resultClass="java.lang.String">
+        select personal_activo(#id_personal#,#clave#) as value
+    </select>
+    <select id="descripcionPersonal" resultClass="Personal">
+        SELECT *, (SELECT tpersonal from tpersonals where id_tpersonal=personal.id_tpersonal) as tpersonal
+        FROM personal WHERE id_personal = #id_personal#
+    </select>
+    <select id="getModalidadesByIdPersonal" resultClass="Modalidad">
+        SELECT  distinct m.id_modalidad as column, m.*
+        FROM pertareas pt, tareas t, modalidades m
+        WHERE pt.id_tarea=t.id_tarea
+        AND m.id_modalidad=t.id_modalidad
+        AND pt.id_personal=#value#
+        ORDER BY m.orden;
+    </select>
+    <select id="getTareasByIdPersonal" resultClass="Tarea">
+        SELECT t.*, pt.fec_inicio, pt.fec_final
+        FROM tareas t, pertareas pt
+        WHERE pt.id_tarea=t.id_tarea
+        AND pt.id_personal=#value#
+        AND t.activo = true
+        AND pt.activo = true
+        AND now() between pt.fec_inicio and pt.fec_final
+        ORDER BY t.orden;
+    </select>
+    <select id="personalAutorizado" resultClass="Boolean">
+        SELECT personal_autorizado(#id_personal#,#id_tpersonal#, #menu.tarea.url#);
+    </select>
+    <resultMap id="map_datos_estudiante" class="Estudiante">
+        <result property="id_estudiante" column="id_estudiante" />
+        <result property="id_persona" column="id_persona" />
+    </resultMap>
+    <select id="getEstudianteByID" resultMap="map_datos_estudiante">
+        SELECT id_estudiante, id_persona
+        FROM estudiantes WHERE id_estudiante=#value#;
+    </select>
+    <select id="getDocenteByID" resultClass="Docente">
+        SELECT * FROM docentes WHERE id_docente=#value#
+    </select>
+    <insert id="setRegistrarPersonal">
+        insert into personal values(#id_personal#,#id_persona#,#clave#,true,#id_tpersonal#);
+    </insert>
+</sqlMap>

@@ -1,0 +1,535 @@
+body {
+    margin: 0px 0px 0px 0px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 75%;
+    background-color: #ECECFF;
+}
+.menuHeader {
+    background-color: #ECECFF;
+    height: 20px;
+    padding-left: 0px;
+    font-size: 8pt;
+    color: #000000;
+}
+.maincontent {
+     color: #000000;
+     
+}
+.headercontent {
+    background:url(../imagenes/ban_all.gif) repeat-x left top;
+}
+.middle-tool-bar {
+    background-color: rgb(229, 233, 237);
+    border: 1px solid #7D909E; 
+}
+.titlepage {
+    background-color: #ECECFF;
+    padding:2px;
+    text-align: center;
+    font-family: Arial Black, Helvetica, sans-serif;
+    font-size:large;
+    color: #003366;
+}
+.null {
+    display: none;
+}
+h2 {
+    color: #000000;
+}
+h3 {
+    color: #000000;
+}
+h4 {
+    color: #000000;
+}
+p {
+    color: #000000;
+}
+.txtField {
+    font-size: 11px;
+    border: 1px solid #CCCCCC;
+    margin-left: 1px;
+    margin-top: 1px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 2px;
+    margin-bottom: 1px;
+    width: 200px
+}
+/*
+#menuHead {
+background-color: rgb(229, 233, 237);
+height: 30px;
+font-size: 8pt;
+color: #000000;
+}
+*/
+.labelTxt {
+    font-weight: bold;
+    font-size: 11px;
+    color: #000000;
+    width: 150px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+/* formulario 1 */
+.formPanel {
+    padding-top: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.text-label {
+    font-weight: bold;
+    font-size: 11px;
+    color: #000000;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.text-field {
+    font-size: 11px;
+    border: 1px solid #CCCCCC;
+    margin-left: 1px;
+    margin-top: 1px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 2px;
+    margin-bottom: 1px;
+    width: 200px
+}
+.check-field {
+    border: 1px solid #CCCCCC;
+}
+.text-info {
+    padding-left: 30px;
+}
+/*
+.button-submit {
+font-size: 8pt;
+cursor: pointer;
+height: auto;
+padding-left: 5px;
+padding-right: 5px;
+font-weight: bold;
+}
+.button-normal {
+font-size: 8pt;
+cursor: pointer;
+padding-left: 3px;
+padding-right: 3px;
+}
+*/
+.button-normal {
+    cursor:pointer;  
+    margin-top:3px; 
+    margin-bottom:3px;
+    border:outset 1px #ccc; 
+    background:#999; 
+    font-size:.9em; 
+    color:#666; 
+    font-weight:normal;  
+    background:url(../imagenes/button_.gif) repeat-x left top;
+    padding:1px; 
+}
+.button-submit {
+    cursor:pointer;  
+    margin-top:3px; 
+    margin-bottom:3px;
+    border:outset 1px #ccc; 
+    background:#999; 
+    font-size:.9em; 
+    color:#666; 
+    font-weight:bold;  
+    background:url(../imagenes/button-bg.gif) repeat-x left top;
+    padding:1px; 
+}            
+.topformbutton { 
+    cursor:pointer;  
+    margin-top:5px; 
+    border:outset 1px #ccc; 
+    background:#999; 
+    font-size:.9em; 
+    color:#666; 
+    font-weight:bold;  
+    background:url(../imagenes/button-bg.gif) repeat-x left top;
+    padding:1px;
+}
+
+
+/* Data grid configuration */
+
+.tableHeader {
+    color: #FFFFFF;
+    background: rgb(25,125, 131) url(../imagenes/table_title_bg.gif);
+    padding: 2px;
+    font-size: 8pt;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.gridHeaders {
+    background: #FFFFFF url(../imagenes/cols.gif);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px; 
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridUno {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_uno.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridUnon {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_unon.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridDos {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_dos.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridDosn {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_dosn.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridTres {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_tres.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridTresn {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_tresn.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridCuatro {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_cuatro.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridCuatron {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_cuatron.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridPA {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_pa.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridPAn {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_pa_n.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridPF {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_pf.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridPFn {
+    background: #FFFFFF url(../imagenes/iconos_sigaa/columna_pf_n.png);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+}
+.gridData {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    color: #000000;
+}
+.gridDatS {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-left: 1px solid #CCCCCC;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    color: #000000;
+}
+.gridDataGroup {
+    background-color: rgb(229, 233, 237);
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 3px;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    color: #000000;
+
+}
+
+.gridContent {
+    background: rgb(210, 233, 237);
+    padding: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    border-width:medium;
+    border: 1px solid #006666;
+    color: black;
+}
+.gridInput {
+    font-size: 12px;
+    border: 0px solid #CCCCCC;
+    margin-left: 1px;
+    margin-top: 1px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 2px;
+    margin-bottom: 1px;
+}
+.gridDataInput {
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+}
+/* tabs configuration */
+.tab_init {
+    border-bottom: 1px solid #006666;
+    border-top: 1px solid #006666;
+    border-left: 1px solid #006666;
+    /*width: 30px;*/
+}
+.tab_fin {
+    border-bottom: 1px solid #006666;
+    border-top: 1px solid #006666;
+    border-right: 1px solid #006666;
+    /*width: 150px;*/
+}
+.tab_current {
+    border: 1px solid #006666;
+    border-bottom: 0px solid #006666;
+    background: #ECECFF;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    color: #003366;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 8pt;
+    text-align: center;
+    /* font-family: Verdana, Arial, Helvetica, sans-serif;*/
+}
+.tab_normal {
+    border: 0px solid #006666;
+    border-bottom:1px solid #006666;
+    border-top: 1px solid #006666;
+    /*background: #FFFFFF url(../imagenes/deselect.jpg) repeat-x;*/
+    padding-top: 2px;
+    padding-bottom: 2px; 
+    padding-left: 2px;
+    padding-right: 2px;
+    color: black;    
+    font-weight: bold;
+    font-size: 8pt;      
+    cursor: pointer;
+    /*text-decoration: underline;   */
+    text-align: center;        
+}
+
+/* ProgresBars */
+.PwdMeterBase {
+    margin-left:1px;
+    margin-bottom:1px;
+    margin-top:1px;
+    margin-right:1px;
+    width:55px;
+}
+
+.PwdBack {
+    height:9px;
+    background-image:url(../imagenes/meter_grey.gif);
+    background-position:center center;
+    /* background-repeat: no-repeat; */
+    border:1px solid #646464
+}
+#calculadora{background-image: url('calculator.png')}
+#calendario{background-image: url('calendar.png')}
+
+.PwdMeter {
+    width:0px;
+    background-image: url(../imagenes/prog_meter.gif);
+    background-position:center center;
+    background-repeat: repeat-x;
+    background-color: #CCCCCC;
+    height:9px;
+    font:normal 9px Tahoma; 
+    color: #444444;  
+}
+
+
+
+
+
+a:visited,
+a:link  {color:#00369A; text-decoration: underline;}
+a:hover .termhighlight,
+a:hover {color:#D40; text-decoration: underline;}
+a:active .termhighlight,
+a:active{color:#C20; text-decoration: none;}
+
+/* max height IE */
+div#resultlayer1 {
+ //   height: expression( this.scrollHeight > 199 ? "200px" : "auto" ); /* sets max-height for IE */
+    max-height: 300px; /* sets max-height value for all standards-compliant browsers */
+    overflow: auto;                
+}
+div#resultlayer1_m {
+    /*height: expression( this.scrollHeight > 199 ? "200px" : "auto" );  sets max-height for IE */
+    /*max-height: 300px;  sets max-height value for all standards-compliant browsers */
+    overflow: auto;
+    width:1020px;
+}
+.colover {
+    background-color: rgb(210, 233, 237);
+}
+.colout { /* for no-class */ }
+
+.day-normal {
+    width:95px;
+    height:320px;
+    left:0px;
+    top:0px;
+    position:relative; 
+    text-align:center;  
+    color:#FFFFFF;        
+    font-weight:bold;
+}
+.day-fds { 
+    width:95px;
+    height:320px;
+    left:0px;
+    top:0px;
+    position:relative; 
+    background-color:#FADBDD;
+    text-align:center;  
+    color:#FFFFFF;      
+    filter:progid:DXImageTransform.Microsoft.alpha(opacity=60);
+    opacity: 0.6;
+}      
+/* Globe stiles */
+.globe_top {
+    /* position:absolute;*/
+    width: 174px;
+    height:8px;
+    background: url(../imagenes/globe_top.png) no-repeat;
+}
+.globe_mid {
+    /* position:absolute;*/
+    width: 173px;
+    background: url(../imagenes/globe_mid.png) repeat-y;
+    color: #FFFFFF;             
+}
+.globe_btm {
+    /* position:absolute;*/
+    width: 174px;
+    height:23px;
+    background: url(../imagenes/globe_btm.png) no-repeat;
+}
+.campos{ font-weight: bold;text-align: right;padding:0px 5px;border-bottom: 1px solid #ccc }
+            .datos{ background-color: #fff;padding:0px 5px;border-bottom: 1px solid #ccc }

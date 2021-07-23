@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!--
+    Document   : Asistencias.xml
+    Created on : 18 de junio de 2010, 15:51
+    Author     : MARCO ANTONIO QUENTA VELASCO
+    Description:
+        Purpose of the document follows.
+-->
+
+<sqlMap namespace="Asistencias">
+    <typeAlias alias="Persona" type="spring.sysmaqv.domain.Persona"/>
+    <typeAlias alias="Inscripcion" type="spring.sysmaqv.domain.Inscripcion"/>
+    <typeAlias alias="Objeto" type="spring.sysmaqv.domain.Objeto"/>
+    <typeAlias alias="Gestion" type="spring.sysmaqv.domain.Gestion"/>
+    <typeAlias alias="Docente" type="spring.sysmaqv.domain.Docente"/>
+    <typeAlias alias="Administrativo" type="spring.sysmaqv.domain.Administrativo"/>
+    <typeAlias alias="Familia" type="spring.sysmaqv.domain.Familia"/>
+    <typeAlias alias="Curso" type="spring.sysmaqv.domain.Curso"/>
+    <typeAlias alias="Materia" type="spring.sysmaqv.domain.Materia"/>
+    <typeAlias alias="CursoMateria" type="spring.sysmaqv.domain.CursoMateria"/>
+    <typeAlias alias="Estudiante" type="spring.sysmaqv.domain.Estudiante"/>
+    <typeAlias alias="Gondola" type="spring.sysmaqv.domain.Gondola"/>
+    <typeAlias alias="Servicio" type="spring.sysmaqv.domain.Servicio"/>
+    <typeAlias alias="Tipo_pension" type="spring.sysmaqv.domain.Tipo_pension"/>
+    <typeAlias alias="PagoPension" type="spring.sysmaqv.domain.PagoPension"/>
+    <typeAlias alias="PagoServicio" type="spring.sysmaqv.domain.PagoServicio"/>
+    <typeAlias alias="PlanEvaluacion" type="spring.sysmaqv.domain.PlanEvaluacion"/>
+    <typeAlias alias="Evaluacion" type="spring.sysmaqv.domain.Evaluacion"/>
+    <typeAlias alias="Gondola" type="spring.sysmaqv.domain.Gondola"/>
+    <typeAlias alias="Fecha_regnota" type="spring.sysmaqv.domain.Fecha_regnota"/>
+    <typeAlias alias="Falta" type="spring.sysmaqv.domain.Falta"/>
+    <typeAlias alias="Nota" type="spring.sysmaqv.domain.Nota"/>
+    <typeAlias alias="ChasideRespuesta" type="spring.sysmaqv.domain.ChasideRespuesta"/>
+    <typeAlias alias="Chaside" type="spring.sysmaqv.domain.Chaside"/>
+    <typeAlias alias="Cuota" type="spring.sysmaqv.domain.Cuota"/>
+    <typeAlias alias="DepositoAsignada" type="spring.sysmaqv.domain.DepositoAsignada"/>
+    <typeAlias alias="Cualitativa" type="spring.sysmaqv.domain.Cualitativa"/>
+    <typeAlias alias="PagoCole" type="spring.sysmaqv.domain.PagoCole"/>
+    <typeAlias alias="Deposito" type="spring.sysmaqv.domain.Deposito"/>
+    <typeAlias alias="Kardex" type="spring.sysmaqv.domain.Kardex"/>
+    <typeAlias alias="KardexDetalle" type="spring.sysmaqv.domain.KardexDetalle"/>
+    <typeAlias alias="PeriodoCurso" type="spring.sysmaqv.domain.PeriodoCurso"/>
+    <typeAlias alias="Informacion" type="spring.sysmaqv.domain.Informacion"/>
+    
+    <typeAlias alias="KardexGeneralClass" type="spring.sysmaqv.domain.KardexGeneralClass"/>
+    
+
+    <select id="getTiposSexos" resultClass="Objeto">
+        SELECT id_sexo AS id, sexo AS valor FROM tipos_sexos ORDER BY id_sexo ASC;
+    </select>
+    <select id="getCargosAcademicos" resultClass="Objeto">
+        SELECT id_tpersonal AS id, tpersonal AS valor FROM tpersonals WHERE id_tpersonal not in ('SYS') ORDER BY id_tpersonal ASC;
+    </select>
+    <select id="getTiposTitulos" resultClass="Objeto">
+        SELECT id_titulo AS id, abreviatura AS valor, titulo AS abreviatura FROM tipos_titulos ORDER BY id_titulo ASC;
+    </select>
+    <select id="getTiposCargos" resultClass="Objeto">
+        SELECT id_tipo_cargo AS id, tipo_cargo AS valor FROM tipos_cargos ORDER BY id_tipo_cargo ASC;
+    </select>
+    <select id="getTiposCategorias" resultClass="Objeto">
+        SELECT id_tipo_categoria AS id, categoria AS valor FROM tipos_categorias ORDER BY id_tipo_categoria ASC;
+    </select>
+    <select id="getBuscarPersona" resultClass="Persona">
+        select *, trim(paterno||' '||materno||' '||nombres) as field from buscar_persona(#value#) as
+        (id_persona did_persona, paterno varchar, materno varchar, nombres varchar, dip varchar, id_tipo_usuario varchar)
+        order by field;
+    </select>
+    <select id="getBuscarEstudianteByIdGestion" resultClass="Estudiante">
+        select *, trim(paterno||' '||materno||' '||nombres) as field from buscar_estudiante(#nombres#,#id_gestion#) as
+        (id_persona did_persona, paterno varchar, materno varchar, nombres varchar, id_tipo_usuario varchar,id_sexo varchar,
+        id_familia varchar, codigo integer,fecha_nacimiento date, id_inscripcion integer, id_curso varchar, nombre_foto varchar,
+        curso varchar, ciclo varchar, id_estado varchar)
+        order by field;
+    </select>
+    <select id="getPersonaById" resultClass="Persona">
+        select * from personas
+        where id_persona=#value#;
+    </select>
+
+    <select id="getDocenteById" resultClass="Docente">
+        select d.*,p.paterno,p.materno,p.nombres,t.abreviatura
+        from docentes d,personas p,tipos_titulos t
+        where d.id_docente=#value# and p.id_persona=d.id_persona and d.id_titulo=t.id_titulo;
+    </select>
+    <select id="getAdministrativoById" resultClass="Administrativo">
+        select * from administrativos
+        where id_administrativo=#value#;
+    </select>
+    <select id="getBuscarFamilia" resultClass="Familia">
+        select * from familias where id_familia=#value#;
+    </select>
+    <select id="getListaPersonas" resultClass="Persona">
+        select *, (select tpersonal from tpersonals where id_tpersonal = personas.id_tipo_usuario)as tipo_usuario
+        from personas
+        where id_tipo_usuario not in ('EST')
+        order by paterno;
+    </select>
+    <select id="getListaFamilias" resultClass="Familia">
+        select * from buscar_familia(#value#) as (id_familia  varchar, nombre_apellidos_tutor_1 varchar, nombre_apellidos_tutor_2 varchar,
+        nombre_apellidos_tutor_3 varchar,ci_tutor_1 varchar,ci_tutor_2 varchar,ci_tutor_3 varchar, ci_resp_pago varchar);
+    </select>
+    <select id="getListaFamiliasEst" resultClass="Familia">
+        select * from buscar_familiaest(#value#) as (id_familia  varchar, nombre_apellidos_tutor_1 varchar, nombre_apellidos_tutor_2 varchar,
+        nombre_apellidos_tutor_3 varchar,ci_tutor_1 varchar,ci_tutor_2 varchar,ci_tutor_3 varchar, ci_resp_pago varchar);
+    </select>
+    <select id="getTipoDias" resultClass="Objeto">
+        select id_dia as id from tipos_dias ORDER BY id_dia;
+    </select>
+    <select id="getTipoMeses" resultClass="Objeto">
+        select id_mes as id, mes as valor from tipos_meses;
+    </select>
+
+    <select id="getTipoAnios" resultClass="Objeto">
+        select id_anio as id from tipos_anios ORDER BY id_anio;
+    </select>
+    <select id="getListaCursos" resultClass="Curso">
+        select * from cursos ORDER BY id_curso;
+    </select>
+    <select id="getListaMaterias" resultClass="Materia">
+        SELECT * FROM materias order by id_materia;
+    </select>
+    <select id="getListaDocentes" resultClass="Docente">
+        select *,(select dip from personas where id_persona=docentes.id_persona) as dip,
+        (select abreviatura from tipos_titulos where id_titulo=docentes.id_titulo) as titulo,
+        (select trim(nombres||' '||paterno||' '||materno) as field from personas where id_persona=docentes.id_persona) as nombres
+        from docentes where estado='activo' ORDER BY nombres;
+    </select>
+    <select id="getListaCursoMateriasByIdGestion" resultClass="CursoMateria">
+        SELECT cm.*,m.materia,
+        (select abreviatura from tipos_titulos where id_titulo=(select id_titulo from docentes where id_docente=cm.id_docente)) AS titulo,
+        (select trim(nombres||' '||paterno||' '||materno) as field from personas where id_persona=(select id_persona from docentes
+        where id_docente=cm.id_docente)) AS docente
+        FROM curso_materias cm, materias m
+        WHERE cm.id_materia=m.id_materia and cm.id_gestion=#value#
+        order by cm.id_materia;
+    </select>
+    <select id="getBuscarMateria" resultClass="Materia">
+        SELECT * FROM materias where id_materia=#value#;
+    </select>
+    <select id="getBuscarCurso" resultClass="Curso">
+        SELECT * FROM cursos where id_curso=#value#;
+    </select>
+    <select id="getEvaluacionesEstudianteCursoMateria" resultClass="Evaluacion">
+        SELECT e.*, p.evaluacion, p.estado,trim(e.cualitativa) AS cualitativa,p.nota as nota_plan ,p.dps as dps_plan,
+        (select categoria from cualitativas where id_cualitativa=e.id_cualitativa) as categoria,
+        (select trim(descripcion) from cualitativas where id_cualitativa=e.id_cualitativa) as cualitativa_p,
+        cm.id_docente
+        FROM evaluaciones e, plan_evaluaciones p, curso_materias cm
+        WHERE e.id_evaluacion = p.id_evaluacion
+        AND p.id_curso_materia=#cursomateria.id_curso_materia#
+        AND e.id_estudiante=#id_estudiante# AND cm.id_curso_materia=#cursomateria.id_curso_materia#
+        ORDER BY e.id_evaluacion;
+    </select>
+    <select id="getCursoById" resultClass="Curso">
+        SELECT * FROM cursos where id_curso=#value#;
+    </select>
+    <select id="getCursoMateriaByIdCursoMateria" resultClass="CursoMateria">
+        SELECT * FROM curso_materias where id_curso_materia=#id_curso_materia#;
+    </select>
+    <select id="getNroHijoEstudiante" resultClass="Estudiante">
+        SELECT * FROM estudiantes where id_familia=#value#;
+    </select>
+    <select id="getGestionActivo" resultClass="Gestion">
+        SELECT * FROM gestiones WHERE estado=true;
+    </select>
+    <select id="getAlumnosById_familiaAndGestion" resultClass="Inscripcion">
+        SELECT DISTINCT i.*,p.nombres,p.paterno,p.materno,TRIM(c.curso||' de '||c.ciclo) as curso,e.nro_hijo,e.codigo
+        FROM inscripciones i,estudiantes e, personas p, cursos c
+        WHERE i.id_familia=#id_familia# AND i.id_gestion=#id_gestion# AND i.id_estudiante=e.id_estudiante AND e.id_persona=p.id_persona
+        AND i.id_curso=c.id_curso
+        ORDER BY e.nro_hijo;
+    </select>
+    <select id="getEstudianteByIdEstudiante" resultClass="Estudiante">
+        SELECT e.*,p.nombres,p.paterno, p.materno, p.id_sexo
+        FROM estudiantes e, personas p
+        WHERE e.id_persona=p.id_persona AND e.id_estudiante=#value# ORDER BY p.paterno;
+    </select>
+    <select id="getBuscarGestion" resultClass="Gestion">
+        SELECT *,(SELECT TRIM(nombres||' '||paterno||' '||materno) AS field
+        FROM personas WHERE id_persona=(SELECT id_persona FROM administrativos WHERE id_administrativo=gestiones.directora))AS nombre,
+        (SELECT abreviatura FROM tipos_titulos WHERE id_titulo=(SELECT id_titulo FROM administrativos
+        WHERE id_administrativo=gestiones.directora))AS titulo
+        FROM gestiones
+        WHERE id_gestion=#value#;
+    </select>
+    <select id="getListaGestiones" resultClass="Gestion">
+        SELECT *,(SELECT TRIM(nombres||' '||paterno||' '||materno) AS field
+        FROM personas WHERE id_persona=(SELECT id_persona FROM administrativos WHERE id_administrativo=gestiones.directora))AS nombre,
+        (SELECT abreviatura FROM tipos_titulos WHERE id_titulo=(SELECT id_titulo FROM administrativos
+        WHERE id_administrativo=gestiones.directora))AS titulo
+        FROM gestiones ORDER BY id_gestion desc;
+    </select>
+    <select id="getAdministradorById_cargo" resultClass="Administrativo">
+        SELECT *,(SELECT TRIM(nombres||' '||paterno||' '||materno) AS field FROM personas
+        WHERE id_persona=administrativos.id_persona)AS nombre,
+        (SELECT abreviatura FROM tipos_titulos WHERE id_titulo=administrativos.id_titulo)AS titulo
+        FROM administrativos WHERE id_tipo_cargo=#value# ORDER BY id_persona;
+    </select>
+    <select id="getListaGondolas" resultClass="Gondola">
+        SELECT * FROM gondolas ORDER BY nro_gondola;
+    </select>
+    <select id="getServicioByID" resultClass="Servicio">
+        select * from tipos_servicios
+        where id_gestion=#value# order by id_servicio;
+    </select>
+    <select id="getAdministrativoByIdPersona" resultClass="Administrativo">
+        select * from administrativos
+        where id_persona=#value#;
+    </select>
+    <select id="getDocenteByIdPersona" resultClass="Docente">
+        select * from docentes
+        where id_persona=#value#;
+    </select>
+    <select id="getListaCuotas" resultClass="Objeto">
+        select distinct cuota as id from cuotas ORDER BY cuota;
+    </select>
+    <select id="getListaCuotasInicialesAndTotalesByGestion" resultClass="Tipo_pension">
+        SELECT * FROM tipos_pensiones
+        WHERE id_gestion=#value#
+        ORDER BY id_pension;
+    </select>
+    <select id="getListaDescuentos" resultClass="Objeto">
+        SELECT id_descuento AS id, descuento AS valor, descripcion AS abreviatura FROM descuentos ORDER BY id_descuento;
+    </select>
+    <select id="getPagoPensionesByIdFamiliaAndIdGestion" resultClass="PagoPension">
+        SELECT pp.*,p.paterno, p.materno, p.nombres, TRIM(c.curso||' de '||c.ciclo) as curso,e.nro_hijo,e.id_estudiante,c.id_curso,
+        i.nombre_foto,e.codigo
+        FROM pago_pensiones pp, personas p, estudiantes e, inscripciones i, cursos c
+        WHERE pp.id_familia=#id_familia#  AND pp.id_gestion=#id_gestion# and p.id_persona=e.id_persona
+        and e.id_estudiante=i.id_estudiante and i.id_inscripcion=pp.id_inscripcion and i.id_curso=c.id_curso
+        ORDER BY e.nro_hijo;
+    </select>
+    <select id="getPagoServiciosByIdFamiliaAndIdGestion" resultClass="PagoServicio">
+        SELECT *,
+        (SELECT TRIM(nombres||' '||paterno||' '||materno) AS field FROM personas
+        WHERE id_persona=(SELECT id_persona FROM estudiantes WHERE id_estudiante=(SELECT id_estudiante FROM inscripciones
+        WHERE id_inscripcion=pago_servicios.id_inscripcion)))AS nombres,
+        (SELECT TRIM(curso||' de '||ciclo) AS cur FROM cursos WHERE id_curso=(SELECT id_curso FROM inscripciones
+        WHERE id_inscripcion=pago_servicios.id_inscripcion))AS curso,
+        (SELECT tipo_servicio FROM tipos_servicios WHERE id_servicio=pago_servicios.id_servicio) AS tipo_servicio,
+        (SELECT monto_servicio FROM tipos_servicios WHERE id_servicio=pago_servicios.id_servicio) AS monto_servicio
+        FROM pago_servicios
+        WHERE id_familia=#id_familia# AND id_gestion=#id_gestion#
+        ORDER BY id_inscripcion,id_servicio;
+    </select>
+    <select id="getMateriaById" resultClass="Materia">
+        SELECT * FROM materias WHERE id_materia=#value#;
+    </select>
+    <select id="getListaPlanEvaluacionesByIdCursoMateria" resultClass="PlanEvaluacion">
+        SELECT * FROM plan_evaluaciones WHERE id_curso_materia=#value# ORDER BY id_evaluacion;
+    </select>
+    <select id="getGondolaByIdGondola" resultClass="Gondola">
+        SELECT * FROM gondolas WHERE id_gondola=#value#;
+    </select>
+    <select id="getTiposPensionesByIdGestion" resultClass="Tipo_pension">
+        SELECT tp.*, c.curso, c.ciclo
+        FROM tipos_pensiones tp, cursos c
+        WHERE tp.id_gestion=#value# and tp.id_curso=c.id_curso
+        ORDER BY id_pension;
+    </select>
+    <select id="getEstudiantesByIdCursoAndIdGestion" resultClass="Estudiante">
+        SELECT i.id_inscripcion,i.id_estudiante,i.id_curso,c.desc_curso,p.paterno,p.materno,p.nombres,e.codigo,e.id_familia,e.fecha_nacimiento,i.id_estado,p.id_sexo,
+        es.estado,i.nombre_foto,
+        (select 'asignada' from pago_pensiones where editable=false and codigo=e.codigo and id_gestion=#id_gestion#) as estado_asignacion_pensiones
+        FROM cursos c, inscripciones i,estudiantes e,personas p, tipos_estados es
+        WHERE i.id_gestion=#id_gestion# AND i.id_curso=#id_curso# AND c.id_curso=#id_curso# AND i.id_estudiante=e.id_estudiante
+        AND e.id_persona=p.id_persona AND i.id_estado=es.id_estado AND i.id_estado='A'
+        ORDER BY trim(p.paterno),trim(p.materno||''||p.nombres);
+    </select>
+    <select id="getEstudiantesAllByIdCursoAndIdGestion" resultClass="Estudiante">
+        SELECT i.id_estudiante,i.id_curso,p.paterno,p.materno,p.nombres,e.codigo,e.id_familia,e.fecha_nacimiento,i.id_estado,p.id_sexo, es.estado
+        FROM inscripciones i,estudiantes e,personas p, tipos_estados es
+        WHERE i.id_gestion=#id_gestion# AND i.id_curso=#id_curso# AND i.id_estudiante=e.id_estudiante
+        AND e.id_persona=p.id_persona AND i.id_estado=es.id_estado
+        ORDER BY trim(p.paterno),trim(p.materno||''||p.nombres)
+    </select>
+    <select id="getMateriasByIdCurso" resultClass="Materia">
+        SELECT m.*
+        FROM curso_materias cm, materias m
+        WHERE cm.id_materia=m.id_materia AND cm.id_curso=#value#
+        ORDER BY id_materia;
+    </select>
+    <select id="getFechaRegNotaByIdGestion" resultClass="Fecha_regnota">
+        SELECT rn.*, (select 'activo' from fechas_regnotas where id_eva=rn.id_eva  and now() between fec_inicio and fec_limite) as estado
+        from fechas_regnotas rn
+        where rn.id_gestion=#value#
+        order by rn.id_eva
+    </select>    
+    <select id="getFechaRegNotaByIdGestion2" resultClass="Fecha_regnota">
+        SELECT rn.*, (select 'activo' from fechas_regnotas where id_eva=rn.id_eva  and now() between fec_inicio and fec_limite) as estado
+        from fechas_regnotas rn
+        where rn.id_gestion=#id_gestion# and periodos=#periodos#
+        order by rn.id_eva
+    </select>
+    <select id="getFechaRegNotaByIdEva" resultClass="Fecha_regnota">
+        SELECT * FROM fechas_regnotas WHERE id_eva=#value#
+    </select>
+
+    <select id="getTiposConductas" resultClass="Objeto">
+        SELECT id_tipo_conducta as id, tipo_conducta as valor, estado as abreviatura FROM tipos_conductas  ORDER BY id_tipo_conducta;
+    </select>
+    <select id="getMateriasByIdCursoAndOrdenadoByK" resultClass="Materia">
+        SELECT m.*, cm.id_curso_materia
+        FROM curso_materias cm, materias m
+        WHERE cm.id_materia=m.id_materia AND cm.id_curso=#id_curso# AND cm.id_gestion=#id_gestion#
+        ORDER BY m.orden_k;
+    </select>
+    <select id="getMateriasByIdCursoAndOrdenadoByP" resultClass="Materia">
+        SELECT m.*, cm.id_curso_materia
+        FROM curso_materias cm, materias m
+        WHERE cm.id_materia=m.id_materia AND cm.id_curso=#id_curso# AND cm.id_gestion=#id_gestion#
+        ORDER BY m.orden_p;
+    </select>
+    <!-- para libretas  and orden_p not in (99) P y S -->
+    <select id="getMateriasByIdCursoAndOrdenadoByS" resultClass="Materia">
+        SELECT m.*, cm.id_curso_materia
+        FROM curso_materias cm, materias m
+        WHERE cm.id_materia=m.id_materia AND cm.id_curso=#id_curso# AND cm.id_gestion=#id_gestion#
+        ORDER BY m.orden_s;
+    </select>
+    <select id="getPersonaByIdEstudiante" resultClass="Persona">
+        SELECT p.*
+        FROM estudiantes e, personas p
+        WHERE e.id_estudiante=#value# AND e.id_persona=p.id_persona;
+    </select>
+    <select id="getNroEvasDefinidos" resultClass="Integer">
+        select count(e.id_estudiante)
+        from evaluaciones e, plan_evaluaciones pe
+        where e.id_evaluacion=pe.id_evaluacion and pe.id_gestion=#id_gestion# and e.id_estudiante =#id_estudiante#
+    </select>
+    <select id="getInscripcionByIdInscripcion" resultClass="Inscripcion">
+        SELECT * FROM inscripciones WHERE id_inscripcion=#value#;
+    </select>
+    <select id="getPensionByIdEstudiante" resultClass="PagoPension">
+        SELECT * FROM pago_pensiones WHERE id_inscripcion=#value#;
+    </select>
+    <select id="getServiciosByIdEstudiante" resultClass="PagoServicio">
+        SELECT ps.*, s.tipo_servicio, s.monto_servicio,
+        (SELECT TRIM(nombres||' '||paterno||' '||materno) AS field FROM personas
+        WHERE id_persona=(SELECT id_persona FROM estudiantes WHERE id_estudiante=(SELECT id_estudiante FROM inscripciones
+        WHERE id_inscripcion=ps.id_inscripcion)))AS nombres,
+        (SELECT TRIM(curso||' de '||ciclo) AS cur FROM cursos WHERE id_curso=(SELECT id_curso FROM inscripciones
+        WHERE id_inscripcion=ps.id_inscripcion))AS curso
+        FROM pago_servicios ps, tipos_servicios s
+        WHERE ps.id_inscripcion=#value# AND ps.id_servicio=s.id_servicio
+        ORDER BY ps.id_inscripcion, ps.id_servicio;
+    </select>
+    <select id="getFaltaByIdFalta" resultClass="Falta">
+        SELECT * FROM faltas WHERE id_falta=#value#;
+    </select>
+    <select id="getDatosActualesEstudianteByIdEstudianteIdCursoIdGestion" resultClass="Estudiante">
+        SELECT e.*,i.id_curso,i.nombre_foto,i.id_gondola,i.id_gestion,p.nombres,p.paterno,p.materno,p.id_sexo
+        FROM estudiantes e, inscripciones i,personas p
+        WHERE e.id_estudiante=#id_estudiante# AND e.id_estudiante=i.id_estudiante
+        AND i.id_gestion=#id_gestion# AND i.id_curso=#id_curso# AND p.id_persona=e.id_persona
+    </select>
+    <select id="getFaltasByIdestudianteAndIdGestion" resultClass="Falta">
+        SELECT *,(select 'activo' from fechas_regnotas where SUBSTRING(id_eva,1,7)=faltas.id_eva  and now() between fec_inicio and fec_limite) as status
+        FROM faltas WHERE id_estudiante=#id_estudiante# AND id_gestion=#id_gestion#
+        ORDER BY id_falta;
+    </select>
+    <select id="getDetallesOfIdfalta" resultClass="Falta">
+        SELECT f.*,
+        (SELECT TRIM(nombres||' '||paterno||' '||materno) AS field FROM personas WHERE id_persona=(SELECT id_persona
+        FROM personal WHERE id_personal=f.id_usuario_reg))AS nombre_reg,
+        (SELECT TRIM(nombres||' '||paterno||' '||materno) AS field FROM personas WHERE id_persona=(SELECT id_persona
+        FROM personal WHERE id_personal=f.id_usuario_modific))AS nombre_mod
+        FROM fechas_faltas f
+        WHERE f.id_falta=#id_falta#
+        ORDER BY f.id_fecha_falta;
+    </select>
+    <select id="getFechaFaltaById" resultClass="Falta">
+        SELECT f.*,
+        (SELECT TRIM(nombres||' '||paterno||' '||materno) AS field FROM personas WHERE id_persona=(SELECT id_persona
+        FROM personal WHERE id_personal=f.id_usuario_reg))AS nombre_reg,
+        (SELECT TRIM(nombres||' '||paterno||' '||materno) AS field FROM personas WHERE id_persona=(SELECT id_persona
+        FROM personal WHERE id_personal=f.id_usuario_modific))AS nombre_mod
+        FROM fechas_faltas f
+        WHERE f.id_fecha_falta=#id_fecha_falta#;
+    </select>
+    <select id="getServicioByIdServicio" resultClass="Servicio">
+        SELECT * FROM tipos_servicios
+        WHERE id_servicio=#id_servicio#;
+    </select>
+    <select id="getEstadosOfEstudiantes" resultClass="Objeto">
+        select id_estado as id, estado as valor from tipos_estados;
+    </select>
+    <select id="getNotasByIdEstudianteAndIdGestionAndIdCurso" resultClass="Nota">
+        select * from notas where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_curso=#id_curso#;
+    </select>
+    <select id="getEstudiantesMorososServicioByIdGestion" resultClass="Estudiante">
+        select DISTINCT (i.id_inscripcion) , trim(c.curso||' de '||c.ciclo) as curso,p.paterno, p.materno, p.nombres,
+        c.id_curso, i.id_estado, e.codigo, p.id_sexo
+        from personas p, estudiantes e, inscripciones i, pago_servicios ps, cursos c
+        where i.id_inscripcion=ps.id_inscripcion and e.id_estudiante=i.id_estudiante and i.id_curso=c.id_curso and
+        e.id_persona=p.id_persona and ps.estado='pendiente' and ps.id_gestion=#id_gestion#
+        ORDER BY TRIM(c.curso||' de '||c.ciclo)
+    </select>
+    <select id="setServiciosByIdInscripcion" resultClass="PagoServicio">
+        select ps.*,s.*
+        from pago_servicios ps, tipos_servicios s
+        where ps.id_inscripcion=#value# and ps.estado='pendiente' and ps.id_servicio=s.id_servicio
+    </select>
+    <select id="getEstudiantesMorososServicioByIdCursoIdGestion" resultClass="Estudiante">
+        select DISTINCT (i.id_inscripcion) , trim(c.curso||' de '||c.ciclo) as curso,p.paterno, p.materno, p.nombres,
+        c.id_curso, i.id_estado, e.codigo, p.id_sexo
+        from personas p, estudiantes e, inscripciones i, pago_servicios ps, cursos c
+        where i.id_inscripcion=ps.id_inscripcion and e.id_estudiante=i.id_estudiante and i.id_curso=c.id_curso and
+        e.id_persona=p.id_persona and ps.estado='pendiente' and ps.id_gestion=#id_gestion# and i.id_curso=#id_curso#;
+    </select>
+    <select id="getPreguntasChaside" resultClass="Objeto">
+        select id_chaside_pregunta as id, pregunta as valor, id_chaside as abreviatura from chaside_preguntas
+        order by id_chaside_pregunta;
+    </select>
+    <select id="getEstudianteByIdEstudianteAndGestion" resultClass="Inscripcion">
+        select * from inscripciones
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion#;
+    </select>
+    <select id="getChasideRespuestasByIdEstudianteAndIdGestion" resultClass="ChasideRespuesta">
+        select * from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion#;
+    </select>
+    <select id="getCantidadC_INT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='C_INT' AND respuesta='si';
+    </select>
+    <select id="getCantidadH_INT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='H_INT' AND respuesta='si';
+    </select>
+    <select id="getCantidadA_INT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='A_INT' AND respuesta='si';
+    </select>
+    <select id="getCantidadS_INT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='S_INT' AND respuesta='si';
+    </select>
+    <select id="getCantidadI_INT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='I_INT' AND respuesta='si';
+    </select>
+    <select id="getCantidadD_INT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='D_INT' AND respuesta='si';
+    </select>
+    <select id="getCantidadE_INT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='E_INT' AND respuesta='si';
+    </select>
+    <select id="getAreasChaside" resultClass="Chaside">
+        select * from chaside;
+    </select>
+    <select id="getAptitudesByIdChaside" resultClass="Objeto">
+        select id_interes as id, interes as valor from chaside_intereses_aptitudes
+        where id_chaside=#value#
+        order by id_interes
+    </select>
+    <select id="getCantidadC_APT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='C_APT' AND respuesta='si';
+    </select>
+    <select id="getCantidadH_APT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='H_APT' AND respuesta='si';
+    </select>
+    <select id="getCantidadA_APT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='A_APT' AND respuesta='si';
+    </select>
+    <select id="getCantidadS_APT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='S_APT' AND respuesta='si';
+    </select>
+    <select id="getCantidadI_APT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='I_APT' AND respuesta='si';
+    </select>
+    <select id="getCantidadD_APT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='D_APT' AND respuesta='si';
+    </select>
+    <select id="getCantidadE_APT" resultClass="Integer">
+        select count(*) from chaside_respuestas
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_chaside='E_APT' AND respuesta='si';
+    </select>
+    <select id="getEstudiantesByIdFamiliaAndIdGestion" resultClass="Inscripcion">
+        select i.*, p.nombres, p.paterno, p.materno, c.curso, c.ciclo
+        from inscripciones i, estudiantes e, personas p, cursos c
+        where p.id_persona=e.id_persona and e.id_estudiante=i.id_estudiante and i.id_familia=#id_familia#
+        and i.id_gestion=#id_gestion# and c.id_curso=i.id_curso;
+    </select>
+    <select id="getCuotasByCuota" resultClass="Cuota">
+        select * from cuotas where cuota=#value# order by id_cuota;
+    </select>
+    <select id="getDepositosAsignadasByIdPagoPension" resultClass="DepositoAsignada">
+        select da.*,(select 'activo' from dep_asignadas where id_dep_asignada=da.id_dep_asignada  and now() between fecha_ini and fecha_fin) as estado
+        from dep_asignadas da
+        where da.id_pago_pension=#value# and da.monto !=0
+        order by da.id_dep_asignada;
+    </select>
+    <select id="getPagoPensionByCodigoAndIdGestion" resultClass="PagoPension">
+        select * from pago_pensiones where codigo=#codigo# and id_gestion=#id_gestion#;
+    </select>
+    <select id="getNotasCualitativasById_curso_materia" resultClass="Cualitativa">
+        SELECT * FROM cualitativas WHERE id_curso_materia=#value# ORDER BY id_cualitativa desc;
+    </select>
+    <select id="getNotasCualitativasByIdDocenteAndIdcurso" resultClass="Cualitativa">
+        SELECT * FROM cualitativas
+        WHERE id_curso_materia in (select id_curso_materia from curso_materias
+        where id_curso=#id_curso# and id_docente=#id_docente# and id_gestion=#id_gestion#) ORDER BY id_cualitativa desc;
+    </select>
+    <!--select id="getListaEvas" resultClass="Evaluacion">
+        SELECT * FROM eva;
+    </select>
+    <update id="updateEvas">
+        update evaluaciones set id_cualitativa=#id_cualitativa#
+        WHERE id_estudiante=#id_estudiante# and id_evaluacion=#id_evaluacion#;
+    </update-->
+    <select id="getDepositosAsignados" resultClass="PagoPension">
+        select pp.*,(select trim(paterno||' '||materno||', '||nombres) from personas where id_persona=e.id_persona)as nombres,
+        (select id_curso from inscripciones where id_estudiante=e.id_estudiante and id_gestion=#value#) as id_curso
+        from pago_pensiones pp, estudiantes e
+        where pp.id_gestion=#value# and pp.codigo=e.codigo and pp.id_familia=e.id_familia
+        order by id_curso,nombres;
+    </select>
+    <select id="getPagoColegioByIdInscripcion" resultClass="PagoCole">
+        select * from pago_cole where id_inscripcion=#value#;
+    </select>
+    <select id="getDepositosByIdGestionYOAnio" resultClass="Deposito">
+        select * from depositos where anio=#value# and asignado=false and (concepto='MEN' or concepto='INT') order by codigo,fec_deposito,concepto desc;
+    </select>
+    <select id="getDepositosAsignadasByCodigoAndIdGestion" resultClass="DepositoAsignada">
+        select da.* from dep_asignadas da, pago_pensiones pp
+        where pp.codigo=#codigo# and pp.id_gestion=#id_gestion# and  da.id_pago_pension=pp.id_pago_pension
+        order by id_dep_asignada
+    </select>
+    <select id="getPersonaByIdCargo" resultClass="Persona">
+        select *, (select tipo_cargo from tipos_cargos where id_tipo_cargo = personas.id_tipo_cargo)as cargo
+        from personas
+        where id_persona=#id_persona#
+        order by paterno;
+    </select>
+    
+    <select id="getListaKardex" resultClass="Kardex">
+        select k.*,(select trim(nombres||', '||paterno||' '||materno) from personas where id_persona=(select id_persona from docentes where id_docente=k.id_docente)) as docente 
+        from kardex k where k.id_curso_materia=#value#
+        order by k.fecha desc;
+    </select>
+    
+    <select id="getMaxIdkardex" resultClass="Integer">
+        select max(idkardex)
+        from kardex
+    </select>
+    
+    <select id="getKardexDetalleByIdkardex" resultClass="KardexDetalle">
+        select kd.*,(select trim(paterno||' '||materno||', '||nombres) from personas where id_persona=(select id_persona from estudiantes where id_estudiante=kd.id_estudiante)) as estudiante 
+        from kardexdetalles kd where kd.idkardex=#value#
+        order by estudiante;
+    </select>
+    <select id="getPeriodoCursoByIdperiodo" resultClass="PeriodoCurso">
+        select *,(select desc_curso from cursos where id_curso=periodo_curso.id_curso) as id_curso_alias from periodo_curso where idperiodo=#value#
+        order by id;
+    </select>
+    <select id="getPeriodoByIdcursoAndGestion" resultClass="PeriodoCurso">
+        select * from periodo_curso where id_curso=#id_curso# and gestion=#id_gestion#;
+    </select>
+    <select id="getPeriodoCursoByIdgestion" resultClass="PeriodoCurso">
+        select * from periodo_curso where gestion=#value#;
+    </select>
+    <select id="getSigaaPeriodoCursoByIdCursoAndIdgestion" resultClass="PeriodoCurso">
+        select * from periodo_curso where id_curso=#id_curso# and gestion=#gestion#;
+    </select>
+    <select id="getFechaRegNotaByIdperiodo" resultClass="Fecha_regnota">
+        SELECT * FROM fechas_regnotas WHERE idperiodo=#value# order by id_eva;
+    </select>
+    <select id="getEvaluacionByIdestudianteAndIdevaluacion" resultClass="Evaluacion">
+        SELECT e.*,pe.nota as nota_plan,pe.dps as dps_plan FROM evaluaciones e,plan_evaluaciones pe WHERE e.id_estudiante=#id_estudiante# and e.id_evaluacion=#id_evaluacion# and e.id_evaluacion=pe.id_evaluacion;
+        
+    </select>
+    <select id="getKardexByIdcursomateriaAndIdCursoAndFechas" resultClass="KardexDetalle">
+        select k.idkardex,k.id_curso_materia,k.fecha, kd.* from kardex k
+        inner join kardexdetalles kd on kd.idkardex=k.idkardex
+        where k.fecha between #fecha1# and #fecha2#
+        and k.id_curso_materia=#id_curso_materia#
+        and kd.id_estudiante=#id_estudiante#
+        order by k.fecha
+    </select>
+     <select id="KardexGeneralClassGestion" resultClass="KardexGeneralClass">
+        select * from "vkardexgeneral" where id_gestion=#id_gestion#
+    </select>
+     <select id="KardexGeneralClassGestionCurso" resultClass="KardexGeneralClass">
+        select * from "vkardexgeneral" where id_gestion=#id_gestion# and id_curso=#id_curso#
+    </select>
+     <select id="getKardexDetalle" resultClass="KardexDetalle">
+        select * from "vkardexdetalle" where id_gestion=#id_gestion# and id_curso=#id_curso# and id_estudiante=#id_estudiante# order by fecreg desc
+    </select>
+    <select id="getEvaluacionesByIdestudianteAndIdCursomateria" resultClass="Evaluacion">
+        SELECT e.*,pe.nota as nota_plan,pe.dps as dps_plan FROM evaluaciones e,plan_evaluaciones pe WHERE e.id_estudiante=#id_estudiante# and e.id_evaluacion like #id_evaluacion# and e.id_evaluacion=pe.id_evaluacion order by e.id_estudiante,e.id_evaluacion;
+    </select>
+    <select id="getInformacionColegio" resultClass="Informacion">
+        SELECT * from informacion where informacion_id=#value#;
+    </select>
+    <select id="getEstudianteRudeById" resultClass="Estudiante">
+        select * from estudiantes e inner join personas p on p.id_persona=e.id_persona where e.id_estudiante=#value#;
+    </select>
+    
+    <!--2014-->
+    <select id="getSigaaGestiones" resultClass="Gestion">
+        SELECT * FROM gestiones ORDER BY id_gestion DESC;
+    </select>
+    <select id="getSigaaCursos" resultClass="Curso">
+        SELECT id_curso, curso, ciclo, id_docente, desc_curso FROM cursos ORDER BY id_curso;
+    </select>
+    <select id="getSigaaGetEstudiantesByCursoAndGestionT" resultClass="Estudiante">
+        SELECT e.id_inscripcion, e.id_curso, e.id_gestion, e.id_estudiante, e.paterno, 
+        e.materno, e.nombres, e.id_sexo, e.e1, e.e2, e.e3, 
+        (SELECT round(avg(p.promedio)) FROM "vPromedioPorEvaluacion" p where p.gestion::numeric=e.id_gestion and p.curso=e.id_curso and p.eva in (#eva1#,#eva2#,#eva3#,#eva4#) and id_estudiante=e.id_estudiante) as notapromedio
+        FROM "vEvaluacionesE1E2E3" e
+        WHERE e.id_gestion=#id_gestion# AND e.id_curso=#id_curso# and (SELECT round(avg(p.promedio)) FROM "vPromedioPorEvaluacion" p where p.gestion::numeric=e.id_gestion and p.curso=e.id_curso and p.eva in (#eva1#,#eva2#,#eva3#,#eva4#) and id_estudiante=e.id_estudiante)>0
+        order by notapromedio desc
+    </select>
+    <select id="getSigaaGetEstudiantesByCursoAndGestionB" resultClass="Estudiante">
+        SELECT e.id_inscripcion, e.id_curso, e.id_gestion, e.id_estudiante, e.paterno, 
+        e.materno, e.nombres, e.id_sexo, coalesce(e.e1, 0) as e1, coalesce(e.e2, 0) as e2, coalesce(e.e3, 0) as e3, coalesce(e.e4, 0) as e4,
+        (SELECT round(avg(p.promedio)) FROM "vPromedioPorEvaluacion" p where p.gestion::numeric=e.id_gestion and p.curso=e.id_curso and p.eva in (#eva1#,#eva2#,#eva3#,#eva4#) and id_estudiante=e.id_estudiante) as notapromedio
+        FROM "vEvaluacionesE1E2E3E4" e
+        WHERE e.id_gestion=#id_gestion# AND e.id_curso=#id_curso# and (SELECT round(avg(p.promedio)) FROM "vPromedioPorEvaluacion" p where p.gestion::numeric=e.id_gestion and p.curso=e.id_curso and p.eva in (#eva1#,#eva2#,#eva3#,#eva4#) and id_estudiante=e.id_estudiante)>0
+        order by notapromedio desc
+    </select>
+     <select id="getDetalleDepositosBancarios" resultClass="Deposito">
+        select * from "vDetalleDepositos" where id_gestion=#id_gestion# and id_curso in (#c1#,#c2#,#c3#,#c4#,#c5#,#c6#,#c7#,#c8#,#c9#,#c10#,#c11#,#c12#,#c13#,#c14#,#c15#,#c16#,#c17#,#c18#,#c19#,#c20#,#c21#,#c22#,#c23#,#c24#,#c25#,#c26#,#c27#,#c28#,#c29#,#c30#) order by id_curso, trim(paterno||' '||materno||' '||nombres);
+    </select>
+    
+</sqlMap>

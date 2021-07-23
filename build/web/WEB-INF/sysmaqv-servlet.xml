@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="LATIN1" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/spring/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <bean id="defaultHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+    <bean name="/init.do" class="spring.sysmaqv.web.spring.InitApplication">
+        <property name="perfectView" value="index/MainPageSigaa"/>
+        <property name="ecxessTimeView" value="index/login/Login"/>
+    </bean>
+    <bean name="/login.do" class="spring.sysmaqv.web.spring.sigaa.index.login.Login">
+        <property name="ecxessTimeView" value="index/login/Login"/>
+        <property name="perfectView" value="index/MainPageSigaa"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/logout.do" class="spring.sysmaqv.web.spring.sigaa.index.login.Logout"/>
+    <bean name="/header.do" class="spring.sysmaqv.web.spring.sigaa.index.header.Header">
+        <property name="ecxessTimeView" value="index/login/Login"/>
+        <property name="perfectView" value="index/header/Header"/>
+    </bean>
+    <bean name="/index.do" class="spring.sysmaqv.web.spring.sigaa.index.Index">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="index/Index"/>
+    </bean>
+    <bean name="/portal.do" class="spring.sysmaqv.web.spring.sigaa.index.portal.Portal">
+        <property name="ecxessTimeView" value="index/login/Login"/>
+        <property name="perfectView" value="index/portal/Portal"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/changePassword.do" class="spring.sysmaqv.web.spring.sigaa.seguridad.ActualizarPassword">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="seguridad/ActualizarPassword"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/registrarPersona.do" class="spring.sysmaqv.web.spring.sigaa.adminPersonal.RegistrarPersona">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="adminPersonal/RegistrarPersona"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/actualizarDatosPersona.do" class="spring.sysmaqv.web.spring.sigaa.adminPersonal.ActualizarDatos">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="adminPersonal/ActualizarDatos"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/buscarPersonas.do" class="spring.sysmaqv.web.spring.sigaa.adminPersonal.BuscarPersona">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="adminPersonal/BuscarPersona"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/inscripcion.do" class="spring.sysmaqv.web.spring.sigaa.inscripciones.Inscripciones">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="inscripciones/Inscripciones"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/registrarGestionAcademico.do" class="spring.sysmaqv.web.spring.sigaa.gestionAcademico.RegistroGestionAcademico">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="gestionAcademica/RegistroGestionAcademico"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/registrarCursos.do" class="spring.sysmaqv.web.spring.sigaa.administracionCursoMateria.RegistroCursos">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="administracionCursoMateria/RegistroCursos"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/registrarMaterias.do" class="spring.sysmaqv.web.spring.sigaa.administracionCursoMateria.RegistroMaterias">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="administracionCursoMateria/RegistroMaterias"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/actualizarMaterias.do" class="spring.sysmaqv.web.spring.sigaa.administracionCursoMateria.ActualizarMaterias">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="administracionCursoMateria/ActualizarMaterias"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/eliminarMaterias.do" class="spring.sysmaqv.web.spring.sigaa.administracionCursoMateria.EliminarMaterias">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="administracionCursoMateria/EliminarMaterias"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/adminPlan.do" class="spring.sysmaqv.web.spring.sigaa.administracionCursoMateria.AdministrarPlanes">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="administracionCursoMateria/AdministrarPlanes"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/actualizarCursos.do" class="spring.sysmaqv.web.spring.sigaa.administracionCursoMateria.ActualizarCursos">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="administracionCursoMateria/ActualizarCursos"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/eliminarCursos.do" class="spring.sysmaqv.web.spring.sigaa.administracionCursoMateria.EliminarCursos">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="administracionCursoMateria/EliminarCursos"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/registrarGondolas.do" class="spring.sysmaqv.web.spring.sigaa.servicios.RegistroGondolas">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="servicios/RegistroGondolas"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/actualizarGondolas.do" class="spring.sysmaqv.web.spring.sigaa.servicios.ActualizarGondolas">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="servicios/ActualizarGondolas"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/actualizarGestionAcademico.do" class="spring.sysmaqv.web.spring.sigaa.gestionAcademico.ActualizarGestion">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="gestionAcademica/ActualizarGestion"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/registrarServicios.do" class="spring.sysmaqv.web.spring.sigaa.servicios.RegistroServicios">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="servicios/RegistroServicios"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/actualizarServicios.do" class="spring.sysmaqv.web.spring.sigaa.servicios.ActualizarServicios">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="servicios/ActualizarServicios"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/asignacionPagos.do" class="spring.sysmaqv.web.spring.sigaa.inscripciones.AsignacionPagos">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="inscripciones/AsignacionPagos"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/asignarDocentes.do" class="spring.sysmaqv.web.spring.sigaa.administracionCursoMateria.AsignarDocenteCursoMateria">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="administracionCursoMateria/AsignarDocenteCursoMateria"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/registrarCalificaciones.do" class="spring.sysmaqv.web.spring.sigaa.docentes.RegistrarCalificaciones">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="docentes/RegistrarCalificaciones"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/notasCualitativas.do" class="spring.sysmaqv.web.spring.sigaa.docentes.NotasCualitativas">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="docentes/NotasCualitativas"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/administrarCurso.do" class="spring.sysmaqv.web.spring.sigaa.gestionAcademico.AdministrarCurso">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="gestionAcademica/AdministrarCurso"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/libretaEscolar.do" class="spring.sysmaqv.web.spring.sigaa.libretas.LibretasEscolares">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="libretas/LibretasEscolares"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/libretaEstudiante.do" class="spring.sysmaqv.web.spring.sigaa.libretas.LibretaEstudiante">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="libretas/LibretaEstudiante"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/administrarEvaluaciones.do" class="spring.sysmaqv.web.spring.sigaa.gestionAcademico.AdministrarEvaluaciones">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="gestionAcademica/AdministrarEvaluaciones"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/tutorCurso.do" class="spring.sysmaqv.web.spring.sigaa.docentes.TutorCurso">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="docentes/TutorCurso"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/boletinesTrimestrales.do" class="spring.sysmaqv.web.spring.sigaa.gestionAcademico.BoletinesTrimestrales">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="gestionAcademica/BoletinesTrimestrales"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/depositosBancarios.do" class="spring.sysmaqv.web.spring.sigaa.inscripciones.DepositosBancarios">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="inscripciones/DepositosBancarios"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/historialAcademico.do" class="spring.sysmaqv.web.spring.sigaa.inscripciones.HistorialAcademico">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="inscripciones/HistorialAcademico"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/inscripcionRezagada.do" class="spring.sysmaqv.web.spring.sigaa.inscripciones.InscripcionesRezagadas">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="inscripciones/InscripcionesRezagadas"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/registrarFaltasAdm.do" class="spring.sysmaqv.web.spring.sigaa.gestionAcademico.RegistrarFaltasAdm">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="gestionAcademica/RegistrarFaltasAdm"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/estudiantesByCurso.do" class="spring.sysmaqv.web.spring.sigaa.consultas.EstudiantesByCurso">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/EstudiantesByCurso"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/profesiones.do" class="spring.sysmaqv.web.spring.sigaa.consultas.Profesiones">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/Profesiones"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/datosPersonales.do" class="spring.sysmaqv.web.spring.sigaa.estudiantes.DatosPersonales">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="estudiantes/DatosPersonales"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/testChaside.do" class="spring.sysmaqv.web.spring.sigaa.orientacion.TestChaside">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="orientacion/TestChaside"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/actualizarEstados.do" class="spring.sysmaqv.web.spring.sigaa.consultas.ActualizarEstados">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/ActualizarEstados"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/estadoEstudiante.do" class="spring.sysmaqv.web.spring.sigaa.consultas.EstadoEstudiantes">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/EstadoEstudiantes"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/mejorEstudiante.do" class="spring.sysmaqv.web.spring.sigaa.consultas.MejoresEstudiantes">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/MejoresEstudiantes"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/moraServicios.do" class="spring.sysmaqv.web.spring.sigaa.consultas.MoraServicios">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/MoraServicios"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/informacionEstudiantes.do" class="spring.sysmaqv.web.spring.sigaa.consultas.InformacionEstudiantes">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/InformacionEstudiantes"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/informacionEstudiantesCurso.do" class="spring.sysmaqv.web.spring.sigaa.consultas.InformacionEstudiantesCurso">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/InformacionEstudiantesCurso"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/informacionFamilias.do" class="spring.sysmaqv.web.spring.sigaa.consultas.InformacionFamilias">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/InformacionFamilias"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/publicacionesdir.do" class="spring.sysmaqv.web.spring.sigaa.publicaciones.PublicacionesDireccion">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="publicaciones/PublicacionesDireccion"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/correosEstudiantes.do" class="spring.sysmaqv.web.spring.sigaa.consultas.CorreosEstudiantes">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/CorreosEstudiantes"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/kardexEstudiante.do" class="spring.sysmaqv.web.spring.sigaa.kardex.KardexEstudiantes">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="kardex/KardexEstudiantes"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/reporteKardex.do" class="spring.sysmaqv.web.spring.sigaa.kardex.ReporteKardex">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="kardex/ReporteKardex"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/centralizadorCalificaciones.do" class="spring.sysmaqv.web.spring.sigaa.consultas.CentralizadorCalificaciones">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/CentralizadorCalificaciones"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/centralizadorDetallado.do" class="spring.sysmaqv.web.spring.sigaa.consultas.CentralizadorDetallado">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/CentralizadorDetallado"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/jqueryJava.do" class="spring.sysmaqv.web.spring.sigaa.consultas.JqueryJava">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="consultas/JqueryJava"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    <bean name="/rude.do" class="spring.sysmaqv.web.spring.sigaa.inscripciones.Rude">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="inscripciones/Rude"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    
+    <bean name="/cualitativas.do" class="spring.sysmaqv.web.spring.sigaa.docentes.Cualitativas">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="docentes/Cualitativas"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    
+    
+    <bean name="/DetalleDepositosBancarios.do" class="spring.sysmaqv.web.spring.sigaa.inscripciones.DetalleDepositosBancarios">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="inscripciones/DetalleDepositosBancarios"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    
+     <bean name="/kardexGeneral.do" class="spring.sysmaqv.web.spring.sigaa.kardex.KardexGeneral">
+        <property name="ecxessTimeView" value="index/login/ErrorOfTimeOfSession"/>
+        <property name="perfectView" value="kardex/KardexGeneral"/>
+        <property name="sigaa" ref="sigaa"/>
+    </bean>
+    
+</beans>

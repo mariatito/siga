@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <sqlMap resource="spring/sysmaqv/dao/ibatis/maps/Administracion.xml"/>
+    <sqlMap resource="spring/sysmaqv/dao/ibatis/maps/Personal.xml"/>
+    <sqlMap resource="spring/sysmaqv/dao/ibatis/maps/Registros.xml"/>
+    <sqlMap resource="spring/sysmaqv/dao/ibatis/maps/Asistencias.xml"/>
+    <sqlMap resource="spring/sysmaqv/dao/ibatis/maps/Profesores.xml"/>
+    <sqlMap resource="spring/sysmaqv/dao/ibatis/maps/Pensiones.xml"/>
+</sqlMapConfig>

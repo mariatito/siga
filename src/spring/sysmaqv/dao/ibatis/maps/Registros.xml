@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!--
+    Document   : Registros.xml
+    Created on : 18 de junio de 2010, 15:51
+    Author     : MARCO ANTONIO QUENTA VELASCO
+    Description:
+        Purpose of the document follows.
+-->
+
+<sqlMap namespace="Registros">
+    <insert id="setInscripcionEstudiante">
+        insert into inscripciones (id_gestion,id_estudiante,id_curso,fecha_registro,id_gondola,id_familia,nombre_foto)
+        values(#id_gestion#,#id_estudiante#,#id_curso#,now(),#id_gondola#,#id_familia#,#nombre_foto#);
+    </insert>
+</sqlMap>

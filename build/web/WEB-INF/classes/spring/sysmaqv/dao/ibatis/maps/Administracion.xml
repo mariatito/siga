@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!--
+    Document   : Administracion.xml
+    Created on : 18 de junio de 2010, 15:51
+    Author     : MARCO ANTONIO QUENTA VELASCO
+    Description:
+        Purpose of the document follows.
+-->
+
+<sqlMap namespace="Administracion">
+    <typeAlias alias="Estudiante" type="spring.sysmaqv.domain.Estudiante"/>
+    <typeAlias alias="Inscripcion" type="spring.sysmaqv.domain.Inscripcion"/>
+    <typeAlias alias="Docente" type="spring.sysmaqv.domain.Docente"/>
+    <typeAlias alias="Administrativo" type="spring.sysmaqv.domain.Administrativo"/>
+    <typeAlias alias="Familia" type="spring.sysmaqv.domain.Familia"/>
+    <typeAlias alias="CursoMateria" type="spring.sysmaqv.domain.CursoMateria"/>
+    <typeAlias alias="Curso" type="spring.sysmaqv.domain.Curso"/>
+    <typeAlias alias="Fecha_regnota" type="spring.sysmaqv.domain.Fecha_regnota"/>
+    <typeAlias alias="Conducta" type="spring.sysmaqv.domain.Conducta"/>
+    <typeAlias alias="Falta" type="spring.sysmaqv.domain.Falta"/>
+    <typeAlias alias="Nota" type="spring.sysmaqv.domain.Nota"/>
+    <typeAlias alias="Promedio" type="spring.sysmaqv.domain.Promedio"/>
+    <typeAlias alias="Deposito" type="spring.sysmaqv.domain.Deposito"/>
+    <typeAlias alias="PagoPension" type="spring.sysmaqv.domain.PagoPension"/>
+    <typeAlias alias="Documento" type="spring.sysmaqv.domain.Documento"/>
+    <typeAlias alias="PlanEvaluacion" type="spring.sysmaqv.domain.PlanEvaluacion"/>
+
+    <resultMap id="administrativo" class="Administrativo">
+        <result property="id_administrativo"  column="ID_ADMINISTRATIVO" />
+        <result property="id_persona"  column="ID_PERSONA" />
+    </resultMap>
+    <select id="getAdministrativoByID" resultMap="administrativo">
+        SELECT id_administrativo,id_persona
+        FROM administrativos WHERE id_administrativo=#value#;
+    </select>
+    <insert id="setRegistrarPersona">
+        insert into personas
+        values(#id_persona#,#dip#,#paterno#,#materno#,#nombres#,
+        #direccion#,#telefono1#,#telefono2#,#id_sexo#,#id_tipo_usuario#,
+        now());
+    </insert>
+    <insert id="setRegistrarAdministrativo">
+        insert into administrativos (id_administrativo, id_persona, fecha_asume, id_titulo, id_tipo_cargo)
+        values(#id_administrativo#,#id_persona#,#fecha_asume#,#id_titulo#,#id_tipo_cargo#);
+    </insert>
+    <update id="setActualizarPersona">
+        update personas set dip=#dip#,
+        paterno=#paterno#,materno=#materno#,nombres=#nombres#,
+        direccion=#direccion#,telefono1=#telefono1#,telefono2=#telefono2#,id_sexo=#id_sexo#
+        WHERE id_persona=#id_persona#;
+    </update>
+    <update id="setUpdateDocente">
+        update docentes set id_titulo=#id_titulo#,
+        id_tipo_categoria=#id_tipo_categoria#,cargahoraria=#cargahoraria#
+        WHERE id_docente=#id_docente# and id_persona=#id_persona#;
+    </update>
+    <update id="setUpdateAdministrativo">
+        update administrativos set fecha_asume=#fecha_asume#,
+        id_titulo=#id_titulo#,id_tipo_cargo=#id_tipo_cargo#
+        WHERE id_administrativo=#id_administrativo# and id_persona=#id_persona#;
+    </update>
+    <delete id="setDeletePersonal">
+        delete from personal where id_persona=#id_persona#;
+    </delete>
+    <delete id="setDeleteDocente">
+        delete from docentes where id_persona=#value#;
+    </delete>
+    <delete id="setDeleteAdministrativo">
+        delete from administrativos where id_persona=#value#;
+    </delete>
+    <delete id="setDeletePersona">
+        delete from personas where id_persona=#id_persona#;
+    </delete>
+    <insert id="setRegistrarFamilia">
+        insert into familias
+        values(#id_familia#,#nombre_apellidos_tutor_1#,#nombre_apellidos_tutor_2#,#nombre_apellidos_tutor_3#,
+        #ci_tutor_1#,#ci_tutor_2#,#ci_tutor_3#,#ci_resp_pago#,
+        #direccion_1#,#direccion_2#,#telefono_1#,#telefono_2#,now(),#telefonos#,#e_mail#,#observacion#,#e_mailRP#,#lugtrab#);
+    </insert>
+    <insert id="setRegistrarCurso">
+        insert into cursos
+        values(#id_curso#,#curso#,#ciclo#);
+    </insert>
+    <insert id="setRegistrarMaterias">
+        insert into materias
+        values(#id_materia#,#materia#,#promocionable#);
+    </insert>
+    <insert id="setRegistrarCursoMaterias">
+        insert into curso_materias
+        values(#id_curso_materia#,#id_curso#,#id_materia#,#id_docente#,#id_gestion#,#estado#);
+    </insert>
+    <insert id="setRegistrarGestionAcademica">
+        insert into gestiones
+        values(#id_gestion#,#colegio#,#direccion#,#telefono#,#fax#,#directora#,#lema#,#mail#,now(),true,0,0,0);
+    </insert>
+    <update id="setUpdateEstadoGestionAcademica">
+        update gestiones set estado=#estado#;
+    </update>
+    <delete id="setDeleteCursoMateriaById">
+        delete from curso_materias where id_curso_materia=#value#;
+    </delete>
+    <delete id="setDeleteCursoMateriasByIdCursoAndIdGestion">
+        delete from curso_materias where id_curso=#id_curso# and id_gestion=#id_gestion#;
+    </delete>
+    <update id="setAsignarDocenteTutorCurso">
+        update curso_materias set id_docente_tutor=#id_docente_tutor#
+        WHERE id_curso=#id_curso# and id_gestion=#id_gestion#;
+    </update>
+    <update id="setAsignarDocenteCoordinadorCurso">
+        update curso_materias set id_docente_coordinador=#id_docente_coordinador#
+        WHERE id_curso=#id_curso# and id_gestion=#id_gestion#;
+    </update>
+    <select id="getSearchCursoMateriasById" resultClass="CursoMateria">
+        SELECT * FROM curso_materias WHERE id_curso_materia=#value#;
+    </select>
+    <update id="setAsignarDocenteMateria">
+        update curso_materias set id_docente=#id_docente#
+        WHERE id_curso_materia=#id_curso_materia# and id_gestion=#id_gestion#;
+    </update>
+    <update id="setActualizarMateria">
+        update materias set materia=#materia#, promocionable=#promocionable#
+        WHERE id_materia=#id_materia#;
+    </update>
+    <update id="setActualizarCurso">
+        update cursos set curso=#curso#, ciclo=#ciclo#
+        WHERE id_curso=#id_curso#;
+    </update>
+    <insert id="setRegistrarEstudiante">
+        insert into estudiantes(id_estudiante,id_persona,id_familia,fecha_nacimiento,nro_hijo,codigo,carnet)
+        values(#id_estudiante#,#id_persona#,#id_familia#,#fecha_nacimiento#,#nro_hijo#,#codigo#,#carnet#);
+    </insert>
+    <delete id="setEliminarCurso">
+        delete from cursos where id_curso=#value#;
+    </delete>
+    <insert id="setRegistrarGondola">
+        insert into gondolas
+        values(#id_gondola#,#placa#,#nro_gondola#,#conductor#,#ruta#,#color#,#empresa#,now());
+    </insert>
+    <insert id="setRegistrarServicio">
+        insert into tipos_servicios (tipo_servicio,monto_servicio,id_gestion)
+        values(#tipo_servicio#,#monto_servicio#,#id_gestion#);
+    </insert>
+    <update id="setActualizarGestionAcademica">
+        update gestiones set direccion=#direccion#,telefono=#telefono#,fax=#fax#,directora=#directora#,lema=#lema#,mail=#mail#,
+        estado=true
+        WHERE id_gestion=#id_gestion#;
+    </update>
+    <insert id="setRegistrarPensiones">
+        insert into tipos_pensiones (id_gestion,id_curso,cuota_inicial, cuota_total)
+        values(#id_gestion#,#id_curso#,#cuota_inicial#,#cuota_total#);
+    </insert>
+    <insert id="setRegistrarPagoPensiones">
+        insert into pago_pensiones(id_familia,id_inscripcion,id_gestion,monto_inicial,monto_total,descuento,beca,pension_total,cuota,fecha_registro,editable,id_usuario,codigo)
+        values(#id_familia#,#id_inscripcion#,#id_gestion#,#monto_inicial#,#monto_total#,#descuento#,#beca#,#pension_total#,#cuota#,now(),true,#id_usuario#,#codigo#);
+    </insert>
+    <insert id="setRegistrarPagoServicios">
+        insert into pago_servicios
+        values(#id_familia#,#id_inscripcion#,#id_servicio#,#id_gestion#,now(),#estado#,now(),#editable#,#id_usuario#);
+    </insert>
+    <update id="setUpdatePagoServicio">
+        update pago_servicios set estado=#estado#,fec_registro=now(),fec_pago=#fec_pago#,editable=#editable#,id_usuario=#id_usuario#
+        WHERE id_familia=#id_familia# and id_inscripcion=#id_inscripcion# and id_servicio=#id_servicio#;
+    </update>
+    <update id="setUpdatePagoPensiones">
+        update pago_pensiones set monto_inicial=#monto_inicial#, monto_total=#monto_total#, descuento=#descuento#,
+        beca=#beca#,pension_total=#pension_total#,cuota=#cuota#,
+        fecha_registro=now(),editable=#editable#,id_usuario=#id_usuario#,codigo=#codigo#
+        WHERE id_familia=#id_familia# and id_inscripcion=#id_inscripcion# and editable=true;
+    </update>
+    <select id="getPagoPensionByIdPagoPension" resultClass="PagoPension">
+        SELECT * FROM pago_pensiones where id_pago_pension=#value#;
+    </select>
+    <insert id="setRegistrarPlanEvaluaciones">
+        insert into plan_evaluaciones
+        values(#id_evaluacion#,#id_curso_materia#,#evaluacion#,#nota#,#dps#,#fec_evaluacion#,#descripcion#,#fec_limite#,now(),#estado#,#id_eva#,#id_gestion#);
+    </insert>
+    <update id="setUpdatePlanEvaluaciones">
+        update plan_evaluaciones set evaluacion=#evaluacion#,fec_evaluacion=#fec_evaluacion#,descripcion=#descripcion#
+        WHERE id_evaluacion=#id_evaluacion#;
+    </update>
+    <update id="setUpdatePlanEvaluacionesByIdEvaluacion">
+        update plan_evaluaciones set evaluacion=#evaluacion#,fec_limite=#fec_limite#,descripcion=#descripcion#,estado=#estado#
+        WHERE id_evaluacion=#id_evaluacion#;
+    </update>
+    <insert id="setRegistrarEvaluacionesByCursoMateria">
+        insert into evaluaciones (id_estudiante,id_evaluacion,nota,dps,cualitativa,fec_registro,id_gestion,id_cualitativa)
+        values(#id_estudiante#,#id_evaluacion#,0,#dps#,'',now(),#id_gestion#,0);
+    </insert>
+    <update id="setActualizarGondola">
+        update gondolas set conductor=#conductor#,ruta=#ruta#,color=#color#,empresa=#empresa#
+        WHERE id_gondola=#id_gondola#;
+    </update>
+    <update id="setUpdateEvaluacionByIdEstudianteAndIdEvaluacion">
+        update evaluaciones set nota=#nota#,dps=#dps#,fec_registro=now(),id_cualitativa=#id_cualitativa#
+        WHERE id_estudiante=#id_estudiante# and id_evaluacion=#id_evaluacion#;
+    </update>
+    <update id="setUpdateEvaluacionByIdEstudianteAndIdEvaluacionKinder">
+        update evaluaciones set nota=#nota#,dps=#dps#,cualitativa=#cualitativa#,fec_registro=now(),id_cualitativa=#id_cualitativa#
+        WHERE id_estudiante=#id_estudiante# and id_evaluacion=#id_evaluacion#;
+    </update>
+    <update id="setUpdateEvaluacionByIdEvaluacion">
+        update plan_evaluaciones set estado=#estado#
+        WHERE id_evaluacion=#id_evaluacion#;
+    </update>
+    <insert id="setGuardarCualitativa">
+        insert into cualitativas(id_curso_materia,categoria,descripcion)
+        values(#id_curso_materia#,#categoria#,#descripcion#);
+    </insert>
+    <delete id="setDeleteCualitativaById">
+        delete from cualitativas where id_cualitativa=#value#;
+    </delete>
+    <update id="setUpdateCualitativaById">
+        update cualitativas set categoria=#categoria#, descripcion=#descripcion#
+        WHERE id_cualitativa=#id_cualitativa#;
+    </update>
+    <update id="setUpdateFamilia">
+        update familias set nombre_apellidos_tutor_1=#nombre_apellidos_tutor_1#,nombre_apellidos_tutor_2=#nombre_apellidos_tutor_2#,
+        nombre_apellidos_tutor_3=#nombre_apellidos_tutor_3#,ci_tutor_1=#ci_tutor_1#,ci_tutor_2=#ci_tutor_2#,ci_tutor_3=#ci_tutor_3#,
+        ci_resp_pago=#ci_resp_pago#,direccion_1=#direccion_1#,direccion_2=#direccion_2#,telefono_1=#telefono_1#,telefono_2=#telefono_2#,
+        telefonos=#telefonos#,e_mail=#e_mail#,observacion=#observacion#,e_mailrp=#e_mailRP#,lugtrab=#lugtrab#
+        WHERE id_familia=#id_familia#
+    </update>
+    <update id="setUpdateFechaRegNota">
+        update fechas_regnotas set fec_limite=#fec_limite#
+        WHERE id_eva=#id_eva#;
+    </update>
+    <update id="setUpdateFechaRegNotaAll">
+        update plan_evaluaciones set fec_limite=#fec_limite#
+        WHERE id_eva=#id_eva#;
+    </update>
+    <insert id="setNuevaConductaByIdEstudianteAndIdCurso">
+        insert into conductas(id_estudiante,id_curso,id_tipo_conducta,dps,id_eva,estado,diagnostico,id_gestion)
+        values(#id_estudiante#,#id_curso#,'0',0,#id_eva#,false,'...',#id_gestion#);
+    </insert>
+    <insert id="setRegistrarFaltaByIdEstudiante">
+        insert into faltas(id_estudiante,id_curso,id_eva,fcl,fsl,retraso,id_gestion,estado)
+        values(#id_estudiante#,#id_curso#,#id_eva#,0,0,0,#id_gestion#,false);
+    </insert>
+    <update id="setUpdateEstadoFaltaByIdEvaAndIdCursoAndIdGestion">
+        UPDATE faltas set estado=#estado#
+        WHERE id_eva=#id_eva# and id_gestion=#id_gestion# and id_curso=#id_curso#;
+    </update>
+    <update id="setUpdateEstadoConductaByIdEvaAndIdCursoAndIdGestion">
+        UPDATE conductas set estado=#estado#
+        WHERE id_eva=#id_eva# and id_gestion=#id_gestion# and id_curso=#id_curso#;
+    </update>
+    <select id="getCursoByIdCurso" resultClass="Curso">
+        SELECT * FROM cursos where id_curso=#value#;
+    </select>
+    <select id="getConductasByIdEstudianteAndIdGestion" resultClass="Conducta">
+        SELECT c.*, TRIM(c.diagnostico) AS diagnostico,tc.tipo_conducta,
+        (select 'activo' from fechas_regnotas where SUBSTRING(id_eva,1,7)=c.id_eva  and now() between fec_inicio and fec_limite) as status
+        FROM conductas c, tipos_conductas tc
+        WHERE c.id_estudiante=#id_estudiante# and c.id_tipo_conducta=tc.id_tipo_conducta and c.id_gestion=#id_gestion#
+        ORDER BY id_eva;
+    </select>
+    <select id="getFaltasByIdEstudianteAndIdGestion" resultClass="Falta">
+        SELECT *,(select 'activo' from fechas_regnotas where SUBSTRING(id_eva,1,7)=faltas.id_eva  and now() between fec_inicio and fec_limite) as status
+        FROM faltas WHERE id_estudiante=#id_estudiante# AND id_gestion=#id_gestion#
+        ORDER BY id_falta;
+    </select>
+    <select id="getFechasFaltasDetalle" resultClass="Falta">
+        select ff.* from fechas_faltas ff,fechas_regnotas fr
+        where fr.id_eva=#id_eva# and 
+        ff.id_falta in (SELECT distinct f.id_falta FROM faltas f WHERE f.id_estudiante=#id_estudiante# and f.id_gestion=#id_gestion#) 
+        and ff.fecha_falta between fr.fec_inicio and fr.fec_limite
+    </select>
+    <update id="setSaveConductaByIdConducta">
+        update conductas set id_tipo_conducta=#id_tipo_conducta#, dps=#dps#
+        WHERE id_estudiante=#id_estudiante# AND id_conducta=#id_conducta#;
+    </update>
+    <update id="setUpdateEvaluaciones">
+        update evaluaciones set dps=#dps#
+        WHERE id_evaluacion in (select id_evaluacion from plan_evaluaciones where id_eva=#id_eva#) and id_estudiante=#id_estudiante#;
+    </update>
+    <select id="setConductasByIdCursoAndIdEva" resultClass="Conducta">
+        SELECT * FROM conductas WHERE id_curso=#id_curso# and id_eva=#id_eva#;
+    </select>
+    <update id="getUpdateEvaluacionesByIdEstudianteAndIdEvaluacion">
+        update evaluaciones set nota=#nota#, dps=#dps#,cualitativa=#cualitativa#
+        WHERE id_estudiante=#id_estudiante# AND id_evaluacion=#id_evaluacion#;
+    </update>
+    <update id="getUpdateEvaluacionesByIdEstudianteAndIdEvaluacionPrimaria">
+        update evaluaciones set nota=#nota#,cualitativa=#cualitativa#
+        WHERE id_estudiante=#id_estudiante# AND id_evaluacion=#id_evaluacion#;
+    </update>
+    <update id="getUpdateFaltasByIdEstudianteAndIdEva">
+        update faltas set fcl=#fcl#, fsl=#fsl#, retraso=#retraso#, uniforme=#uniforme#
+        WHERE id_falta=#id_falta#;
+    </update>
+    <insert id="setRegistrarFechasFaltaById">
+        insert into fechas_faltas (id_falta,fecha_falta,tipo,id_usuario_reg)
+        values(#id_falta#,#fecha_falta#,#tipo#,#id_usuario_reg#);
+    </insert>
+    <update id="setUpdateFechasFaltaById">
+        update fechas_faltas set tipo=#tipo#, id_usuario_modific=#id_usuario_modific#, fecha_modific=now()
+        WHERE id_fecha_falta=#id_fecha_falta#;
+    </update>
+    <update id="setUpdatePersona">
+        update personas set paterno=#paterno#, materno=#materno#, nombres=#nombres#, id_sexo=#id_sexo#
+        WHERE id_persona=#id_persona#;
+    </update>
+    <update id="setUpdateEstudiante">
+        update estudiantes set codigo=#codigo#, fecha_nacimiento=#fecha_nacimiento#,carnet=#carnet#
+        WHERE id_estudiante=#id_estudiante#;
+    </update>
+    <update id="setUpdateInscripcion">
+        update inscripciones set id_curso=#id_curso#, id_gondola=#id_gondola#
+        WHERE id_inscripcion=#id_inscripcion#;
+    </update>
+    <delete id="setDeletePagoServicio">
+        delete from pago_servicios where id_inscripcion=#id_inscripcion# AND id_familia=#id_familia# AND id_servicio=#id_servicio#;
+    </delete>
+    <update id="setAsignarDocenteRegFaltasCurso">
+        update curso_materias set id_docente_regfaltas=#id_docente_regfaltas#
+        WHERE id_curso=#id_curso# and id_gestion=#id_gestion#;
+    </update>
+    <select id="getNotasByIdEstudianteIdCursoIdMateriaIdGestion" resultClass="Nota">
+        select * from notas
+        where id_estudiante=#id_estudiante# and id_curso=#id_curso# and id_materia=#id_materia# and id_gestion=#id_gestion#
+    </select>
+    <insert id="setInsertNotas">
+        insert into notas values(#id_estudiante#,#id_curso#,#id_materia#,#id_gestion#,#nota1#,#nota2#,#nota3#,#nota4#,
+        #dps1#,#dps2#,#dps3#,#cualitativa1#,#cualitativa2#,#cualitativa3#,#diagnostico1#,#diagnostico2#,#notaanual#,#notafinal#,#observacion#,#id_docente#,now());
+    </insert>
+    <insert id="setUpdateNotas">
+        update  notas  set nota1=#nota1#,nota2=#nota2#,nota3=#nota3#,nota4=#nota4#,dps1=#dps1#,dps2=#dps2#,dps3=#dps3#,
+        cualitativa1=#cualitativa1#,cualitativa2=#cualitativa2#,cualitativa3=#cualitativa3#,diagnostico1=#diagnostico1#,
+        diagnostico2=#diagnostico2#,notaanual=#notaanual#,notafinal=#notafinal#,observacion=#observacion#,id_docente=#id_docente#,fec_registro=now()
+        where id_estudiante=#id_estudiante# and id_curso=#id_curso# and id_materia=#id_materia# and id_gestion=#id_gestion#;
+    </insert>
+    <update id="setUpdateEstadoCursoMaterias">
+        update curso_materias set estado=false
+        WHERE id_curso=#id_curso# and id_materia=#id_materia# and id_gestion=#id_gestion# and id_docente=#id_docente#;
+    </update>
+    <update id="setUpdateInscripcionFotografia">
+        update inscripciones set id_gondola=#id_gondola#, nombre_foto=#nombre_foto#
+        WHERE id_estudiante=#id_estudiante# and id_gestion=#id_gestion#;
+    </update>
+    <update id="setActualizarServicio">
+        update tipos_servicios set tipo_servicio=#tipo_servicio#, monto_servicio=#monto_servicio#
+        WHERE id_servicio=#id_servicio#
+    </update>
+    <update id="setUpdateEstadoByIdEstudianteAndIdGestion">
+        update inscripciones set id_estado=#id_estado#
+        WHERE id_estudiante=#id_estudiante# and id_gestion=#id_gestion#;
+    </update>
+    <select id="getEstudiantesAllByIdGestion" resultClass="Estudiante">
+        SELECT i.id_estudiante,i.id_curso,p.paterno,p.materno,p.nombres,e.codigo,e.id_familia,
+        e.fecha_nacimiento,i.id_estado,p.id_sexo, es.estado,TRIM(c.curso||' de '||c.ciclo) AS curso
+        FROM inscripciones i,estudiantes e,personas p, tipos_estados es, cursos c
+        WHERE i.id_gestion=#id_gestion# AND i.id_estudiante=e.id_estudiante
+        AND e.id_persona=p.id_persona AND i.id_estado=es.id_estado AND i.id_curso=c.id_curso
+        ORDER BY c.id_curso, TRIM(p.paterno||' '||p.materno||' '||p.nombres)
+    </select>
+    <select id="getEstudiantesActivosByIdGestion" resultClass="Estudiante">
+        SELECT i.id_estudiante,i.id_curso,p.paterno,p.materno,p.nombres,e.codigo,e.id_familia,
+        e.fecha_nacimiento,i.id_estado,p.id_sexo, es.estado,TRIM(c.curso||' de '||c.ciclo) AS curso
+        FROM inscripciones i,estudiantes e,personas p, tipos_estados es, cursos c
+        WHERE i.id_gestion=#id_gestion# AND i.id_estudiante=e.id_estudiante
+        AND e.id_persona=p.id_persona AND i.id_estado=es.id_estado AND i.id_curso=c.id_curso AND i.id_estado='A'
+        ORDER BY c.id_curso, TRIM(p.paterno||' '||p.materno||' '||p.nombres)
+    </select>
+    <select id="getPromediosByIdEstudianteAndGestion" resultClass="Promedio">
+        SELECT * FROM promedios where id_estudiante=#id_estudiante# AND id_gestion=#id_gestion# AND id_curso=#id_curso#;
+    </select>
+    <insert id="setRegistrarPromediosByIdEstudianteAndIdGestion">
+        insert into promedios values(#id_estudiante#,#id_gestion#,#id_curso#);
+    </insert>
+    <update id="setUpdatePromedioByIdestudianteAndIdCursoAndIdGestion">
+        update promedios set trim1=#trim1#, trim2=#trim2#, trim3=#trim3#, total=#total#
+        WHERE id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_curso=#id_curso#;
+    </update>
+    <select id="getMateriasByIdCursoAndIdGestion" resultClass="CursoMateria">
+        SELECT cm.*,m.materia
+        FROM curso_materias cm, materias m
+        where cm.id_gestion=#id_gestion# AND cm.id_curso=#id_curso# and cm.id_materia=m.id_materia;
+    </select>
+    <select id="getEstudiantesByIdGestionOfPromedios" resultClass="Promedio">
+        select * from promedios where id_gestion=#value# order by id_curso, id_estudiante;
+    </select>
+    <select id="getSumNotaDpsByIdEstudianteAndIdGestion" resultClass="Integer">
+        select sum(nota+dps) as suma
+        from evaluaciones
+        where id_estudiante=#id_estudiante# and id_evaluacion like #id_evaluacion# and id_gestion=#id_gestion#;
+    </select>
+    <select id="getPromedioByIdCursoAndIdGestionAndOrderByTrim1" resultClass="Estudiante">
+        select pr.*,e.codigo,e.id_familia,e.fecha_nacimiento,p.paterno,p.materno,p.nombres,p.id_sexo,
+        (SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)as cant_materias
+        from promedios pr, estudiantes e, personas p
+        where pr.id_curso=#id_curso# and pr.id_gestion=#id_gestion# and pr.id_estudiante=e.id_estudiante and e.id_persona=p.id_persona
+        order by pr.trim1 desc;
+    </select>
+    <select id="getPromedioByIdCursoAndIdGestionAndOrderByTrim2" resultClass="Estudiante">
+        select pr.*,e.codigo,e.id_familia,e.fecha_nacimiento,p.paterno,p.materno,p.nombres,p.id_sexo,
+        (SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)as cant_materias
+        from promedios pr, estudiantes e, personas p
+        where pr.id_curso=#id_curso# and pr.id_gestion=#id_gestion# and pr.id_estudiante=e.id_estudiante and e.id_persona=p.id_persona
+        order by pr.trim2 desc;
+    </select>
+    <select id="getPromedioByIdCursoAndIdGestionAndOrderByTrim3" resultClass="Estudiante">
+        select pr.*,e.codigo,e.id_familia,e.fecha_nacimiento,p.paterno,p.materno,p.nombres,p.id_sexo,
+        (SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)as cant_materias
+        from promedios pr, estudiantes e, personas p
+        where pr.id_curso=#id_curso# and pr.id_gestion=#id_gestion# and pr.id_estudiante=e.id_estudiante and e.id_persona=p.id_persona
+        order by pr.trim3 desc;
+    </select>
+    <select id="getPromedioByIdCursoAndIdGestionAndOrderByTotal" resultClass="Estudiante">
+        select pr.*,e.codigo,e.id_familia,e.fecha_nacimiento,p.paterno,p.materno,p.nombres,p.id_sexo,
+        (SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)as cant_materias
+        from promedios pr, estudiantes e, personas p
+        where pr.id_curso=#id_curso# and pr.id_gestion=#id_gestion# and pr.id_estudiante=e.id_estudiante and e.id_persona=p.id_persona
+        order by pr.total desc;
+    </select>
+    <select id="getPromedioByIdGestionAndOrderByTrim1" resultClass="Estudiante">
+        select pr.*,e.codigo,e.id_familia,e.fecha_nacimiento,p.paterno,p.materno,p.nombres,p.id_sexo,trim(c.curso||' de '||c.ciclo) as curso,
+        (SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)as cant_materias,
+        (pr.trim1/(SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)) as t1
+        from promedios pr, estudiantes e, personas p, cursos c
+        where pr.id_gestion=#id_gestion# and pr.id_estudiante=e.id_estudiante and e.id_persona=p.id_persona and pr.id_curso=c.id_curso
+        order by t1 desc;
+    </select>
+    <select id="getPromedioByIdGestionAndOrderByTrim2" resultClass="Estudiante">
+        select pr.*,e.codigo,e.id_familia,e.fecha_nacimiento,p.paterno,p.materno,p.nombres,p.id_sexo,trim(c.curso||' de '||c.ciclo) as curso,
+        (SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)as cant_materias,
+        (pr.trim2/(SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)) as t2
+        from promedios pr, estudiantes e, personas p, cursos c
+        where pr.id_gestion=#id_gestion# and pr.id_estudiante=e.id_estudiante and e.id_persona=p.id_persona and pr.id_curso=c.id_curso
+        order by t2 desc;
+    </select>
+    <select id="getPromedioByIdGestionAndOrderByTrim3" resultClass="Estudiante">
+        select pr.*,e.codigo,e.id_familia,e.fecha_nacimiento,p.paterno,p.materno,p.nombres,p.id_sexo,trim(c.curso||' de '||c.ciclo) as curso,
+        (SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)as cant_materias,
+        (pr.trim3/(SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)) as t3
+        from promedios pr, estudiantes e, personas p, cursos c
+        where pr.id_gestion=#id_gestion# and pr.id_estudiante=e.id_estudiante and e.id_persona=p.id_persona and pr.id_curso=c.id_curso
+        order by t3 desc;
+    </select>
+    <select id="getPromedioByIdGestionAndOrderByTotal" resultClass="Estudiante">
+        select pr.*,e.codigo,e.id_familia,e.fecha_nacimiento,p.paterno,p.materno,p.nombres,p.id_sexo,trim(c.curso||' de '||c.ciclo) as curso,
+        (SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)as cant_materias,
+        (pr.total/(SELECT count(*) FROM curso_materias where id_gestion=#id_gestion# AND id_curso=pr.id_curso)) as t
+        from promedios pr, estudiantes e, personas p, cursos c
+        where pr.id_gestion=#id_gestion# and pr.id_estudiante=e.id_estudiante and e.id_persona=p.id_persona and pr.id_curso=c.id_curso
+        order by t desc;
+    </select>
+    <insert id="setRegistrarChasideRespuesta">
+        insert into chaside_respuestas(id_estudiante,id_gestion,id_curso,id_chaside_pregunta,respuesta,id_chaside)
+        values(#id_estudiante#,#id_gestion#,#id_curso#,#id_chaside_pregunta#,#respuesta#,#id_chaside#);
+    </insert>
+    <insert id="setActualizarChasideRespuesta">
+        update chaside_respuestas set respuesta=#respuesta#
+        where id_estudiante=#id_estudiante# and id_gestion=#id_gestion# and id_curso=#id_curso#
+        and id_chaside_pregunta=#id_chaside_pregunta# and id_chaside=#id_chaside#;
+    </insert>
+    <update id="setUpdateFaltaByIdFaltaAndTipo">
+        update faltas set fcl=(fcl-#fcl#), fsl=(fsl-#fsl#), retraso=(retraso-#retraso#)
+        where id_estudiante=#id_estudiante# and id_falta=#id_falta#;
+    </update>
+    <delete id="setDeleteFechaFaltaByIdFechaFalta">
+        delete from fechas_faltas where id_fecha_falta=#value#;
+    </delete>
+    <insert id="setRegistrarDepositoAsignada">
+        insert into dep_asignadas (id_pago_pension,mes,monto,fecha_ini,fecha_fin,nro_cuota,codigo)
+        values(#id_pago_pension#,#mes#,#monto#,#fecha_ini#,#fecha_fin#,#nro_cuota#,#codigo#);
+    </insert>
+    <update id="getUpdateMontoDepositoAsignadaByIdDepAsignada">
+        update dep_asignadas set monto=#monto#, estado_cuota=#estado_cuota#, 
+        monto_dep=#monto_dep#, observacion=#observacion#, fecha_dep=#fecha_dep#
+        where id_dep_asignada=#id_dep_asignada#;
+    </update>
+    <update id="setUpdateDepositoAsignadaByIdDepositoAsignada">
+        update dep_asignadas set fecha_dep=#fecha_dep#, monto_dep=#monto_dep#,interes=#interes#,
+        monto_dep_cuota=#monto_dep_cuota#, estado_cuota=#estado_cuota#, factura=#factura#,observacion=#observacion#,control=#control#
+        where id_dep_asignada=#id_dep_asignada#;
+    </update>
+    <update id="setUpdateDepositoAsignadaByIdDepositoasignadaACero">
+        update dep_asignadas set control=0
+        where id_dep_asignada=#value#;
+    </update>
+    <update id="setUpdateObservacionByIdDepAsignada">
+        update dep_asignadas set observacion=#observacion#
+        where id_dep_asignada=#id_dep_asignada#;
+    </update>
+    <update id="setUpdateEstadoPagoPensionesByIdFamiliaAndIdGestion">
+        update pago_pensiones set editable=true where id_familia=#id_familia# and id_gestion=#id_gestion#;
+    </update>
+    <delete id="setDeleteDepAsignadasByIdPagoPension">
+        delete from dep_asignadas where id_pago_pension=#id_pago_pension#;
+    </delete>
+    <insert id="setRegistrarPagoColeByIdInscripcion">
+        insert into pago_cole (id_inscripcion,descripcion,nro_factura,monto,fecha_pago,cancelado)
+        values(#id_inscripcion#,#descripcion#,#nro_factura#,#monto#,#fecha_pago#,#cancelado#);
+    </insert>
+    <update id="setUpdateDepositoByIdDeposito">
+        update depositos set asignado=true where id_deposito=#value#;
+    </update>
+    <update id="setUpdateAsignadoByIdGestionAndCodigo">
+        update depositos set asignado=false where codigo=#codigo# and anio=#anio#;
+    </update>
+    <insert id="setRegistrarDocumento">
+        insert into documentos (descripcion,url,nota,idpersona,area,fec_exp)
+        values(#descripcion#,#url#,#nota#,#idpersona#,#area#,#fec_exp#);
+    </insert>
+    <select id="getListarDocumentosByArea" resultClass="Documento">
+        SELECT * from documentos where area=#cargo# and fec_exp>=now() order by fec_reg asc ;
+    </select>
+    <select id="getListarTodosDocumentosByArea" resultClass="Documento">
+        SELECT * from documentos where fec_exp>=now() order by fec_reg asc ;
+    </select>
+    <select id="getListarDistintosDocumentosByArea" resultClass="Documento">
+        SELECT distinct area from documentos where fec_exp>=now();
+    </select>
+    <update id="setUpdateEstudianteByIdest">
+        update estudiantes set carnet=#carnet#, fecha_nacimiento=#fecha_nacimiento# where id_estudiante=#id_estudiante#;
+    </update>
+    <insert id="setGuardarKardex">
+        insert into kardex (id_curso_materia,periodo,id_docente,temario,fecha,fecreg,usrreg)
+        values(#id_curso_materia#,#periodo#,#id_docente#,#temario#,#fecha#,now(),#usrreg#);
+    </insert>
+    
+    <insert id="setRegistrarKardexDetalle">
+        insert into kardexdetalles (idkardex,id_estudiante,fsl,a,tnr,aa,su,otrasfaltas,aspectospositivos,observaciones)
+        values(#idkardex#,#id_estudiante#,#fsl#,#a#,#tnr#,#aa#,#su#,#otrasfaltas#,#aspectospositivos#,#observaciones#);
+    </insert>
+    
+    <update id="setActualizarKardex">
+        update kardexdetalles set actividades=concat(actividades,'|',now(),';',#actividades#,';',#su#),su=#su# where idkardexdetalle=#idkardexdetalle#;
+    </update>
+    <update id="setGuardarEditKardex">
+        update kardex set periodo=#periodo#,id_docente=#id_docente#,temario=#temario#,fecha=#fecha#,fecmod=now(),usrmod=#usrreg# where idkardex=#idkardex#;
+    </update>
+    <update id="setRegistrarEditKardexDetalle">
+        update kardexdetalles set id_estudiante=#id_estudiante#,fsl=#fsl#,a=#a#,tnr=#tnr#,aa=#aa#,su=#su#,otrasfaltas=#otrasfaltas#,aspectospositivos=#aspectospositivos#,observaciones=#observaciones# where idkardexdetalle=#idkardexdetalle#;
+    </update>
+    <delete id="setDeleteKardexDetalleById">
+        delete from kardexdetalles where idkardexdetalle=#value#;
+    </delete>
+    <update id="setActualizarCualitativa">
+        update evaluaciones set cualitativa=#cualitativa# where id_estudiante=#id_estudiante# and id_evaluacion=#id_evaluacion#;
+    </update>
+    <select id="getCursoMateriasByIdCursoAndIdgestionK" resultClass="CursoMateria">
+        SELECT cm.*,m.materia from curso_materias cm, materias m 
+        where cm.id_curso=#id_curso# and cm.id_gestion=#id_gestion# and cm.id_materia=m.id_materia order by m.orden_k asc;
+    </select>
+    <select id="getCursoMateriasByIdCursoAndIdgestionP" resultClass="CursoMateria">
+        SELECT cm.*,m.materia from curso_materias cm, materias m 
+        where cm.id_curso=#id_curso# and cm.id_gestion=#id_gestion# and cm.id_materia=m.id_materia order by m.orden_p asc;
+    </select>
+    <select id="getCursoMateriasByIdCursoAndIdgestionS" resultClass="CursoMateria">
+        SELECT cm.*,m.materia from curso_materias cm, materias m 
+        where cm.id_curso=#id_curso# and cm.id_gestion=#id_gestion# and cm.id_materia=m.id_materia order by m.orden_s asc;
+    </select>
+    <select id="getCursoMateriasByEvasCursomatsIdgestion" resultClass="PlanEvaluacion">
+        select * from plan_evaluaciones where id_gestion=#id_gestion#
+    </select>
+    <update id="setActualizarPersonaEstudiante">
+        UPDATE personas SET paterno=#paterno#, materno=#materno#, nombres=#nombres#, id_sexo=#id_sexo# WHERE id_persona=#id_persona#;
+    </update>
+    <update id="setActualizarEstudiante">
+        UPDATE estudiantes SET pais=#pais#, departamento=#departamento#, provincia=#provincia#, localidad=#localidad#,
+        codigo_rude=#codigo_rude#,doc_identidad=#doc_identidad#,oficialia=#oficialia#,libro=#libro#,partida=#partida#,folio=#folio#,
+        fecha_nacimiento=#fecha_nacimiento#, codigo_cie_ue=#codigo_cie_ue#, nombre_unidad_educativa=#nombre_unidad_educativa#,
+        nivel=#nivel#, resago=#resago#, paralelo=#paralelo#, turno_m=#turno_m#, turno_t=#turno_t#, turno_n=#turno_n#,
+        est_provincia=#est_provincia#, est_seccion=#est_seccion#, est_localidad=#est_localidad#, est_zona=#est_zona#,
+        est_calle=#est_calle#, est_telefono=#est_telefono#, est_nro=#est_nro#, idioma1=#idioma1#, idioma2=#idioma2#,
+        idioma3=#idioma3#, idioma4=#idioma4#, nacion=#nacion#, nacion_otro=#nacion_otro#, centro_salud=#centro_salud#,
+        centrosalud_asistido=#centrosalud_asistido#, discapacidad_sensorial=#discapacidad_sensorial#, discapacidad_motriz=#discapacidad_motriz#,
+        discapacidad_mental=#discapacidad_mental#, discapacidad_otro=#discapacidad_otro#, discapacidad_tipo=#discapacidad_tipo#,
+        agua=#agua#, electricidad=#electricidad#, water=#water#, actividad=#actividad#, actividad_pasada=#actividad_pasada#,
+        actividad_pago=#actividad_pago#, internet=#internet#, internet_frecuencia=#internet_frecuencia#, transporte=#transporte#,
+        transporte_otro=#transporte_otro#, demora=#demora#, tutor_ci=#tutor_ci#, tutor_apellidos=#tutor_apellidos#,
+        tutor_nombres=#tutor_nombres#, tutor_idioma=#tutor_idioma#, tutor_ocupacion=#tutor_ocupacion#, tutor_grado=#tutor_grado#,
+        tutor_parentesco=#tutor_parentesco#, madre_ci=#madre_ci#, madre_apellidos=#madre_apellidos#, madre_nombres=#madre_nombres#,
+        madre_idioma=#madre_idioma#, madre_ocupacion=#madre_ocupacion#, madre_grado=#madre_grado#, lugar=#lugar#,
+        fecha=#fecha#, nro=#nro#, fecha_registro=#fecha_registro#, id_usuario=#id_usuario#
+        ,carnet=#carnet#
+        ,complemento=#complemento#
+        ,expedido=#expedido#
+        ,discapacidad=#discapacidad#
+        ,ibc=#ibc#
+        ,discapacidad_grado=#discapacidad_grado#
+        ,est_departamento=#est_departamento#
+        ,est_celular=#est_celular#
+         ,acudio1=#acudio1#
+         ,acudio2=#acudio2#
+         ,acudio3=#acudio3#
+         ,acudio4=#acudio4#
+         ,acudio5=#acudio5#
+         ,acudio6=#acudio6#
+         ,tiene_seguro=#tiene_seguro#
+         ,tiene_agua=#tiene_agua#
+         ,tiene_banio=#tiene_banio#
+         ,tiene_alcantarillado=#tiene_alcantarillado#
+         ,tiene_electricidad=#tiene_electricidad#
+         ,tiene_basura=#tiene_basura#
+         ,vivienda=#vivienda#
+         ,frecuencia=#frecuencia#
+         ,trabajo=#trabajo#
+         ,trabajo_meses=#trabajo_meses#
+         ,desc_actividad=#desc_actividad#
+         ,turno=#turno#
+         ,trabajo_frecuancia=#trabajo_frecuancia#
+         ,remuneracion=#remuneracion#
+         ,remuneracion_tipo=#remuneracion_tipo#
+         ,abandono=#abandono#
+         ,abandono_por=#abandono_por#
+         ,abandono_otro=#abandono_otro#
+         ,vive_con=#vive_con#
+        
+         ,tutor_complemento=#tutor_complemento#
+         ,tutor_expedido=#tutor_expedido#
+         ,tutor_materno=#tutor_materno#
+         ,tutor_fecha=#tutor_fecha#
+         ,madre_complemento=#madre_complemento#
+         ,madre_expedido=#madre_expedido#
+         ,madre_materno=#madre_materno#
+         ,madre_fecha=#madre_fecha#
+         ,t_ci=#t_ci#
+         ,t_apellidos=#t_apellidos#
+         ,t_nombres=#t_nombres#
+         ,t_idioma=#t_idioma#
+         ,t_ocupacion=#t_ocupacion#
+         ,t_grado=#t_grado#
+         ,t_complemento=#t_complemento#
+         ,t_expedido=#t_expedido#
+         ,t_materno=#t_materno#
+         ,t_fecha=#t_fecha#
+
+
+        WHERE id_estudiante=#id_estudiante#;
+    </update>
+    <update id="setUpdateDiagnostico">
+        UPDATE conductas SET diagnostico=#diagnostico#
+        WHERE id_estudiante=#id_estudiante# and id_curso=#id_curso# and id_eva=#id_eva# and id_gestion=#id_gestion#
+    </update>
+</sqlMap>

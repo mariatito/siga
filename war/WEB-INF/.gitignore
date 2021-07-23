@@ -1,0 +1,4 @@
+# quitar .test de war\WEB-INF\javadbc.properties.test
+#/ \war\WEB-INF\javadbc.properties
+/web.xml
+/javadbc.properties

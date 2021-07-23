@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!--
+    Document   : Profesores.xml
+    Created on : 18 de junio de 2010, 15:51
+    Author     : MARCO ANTONIO QUENTA VELASCO
+    Description:
+        Purpose of the document follows.
+-->
+
+<sqlMap namespace="Profesores">
+    <typeAlias alias="CursoMateria" type="spring.sysmaqv.domain.CursoMateria"/>
+    <typeAlias alias="Curso" type="spring.sysmaqv.domain.Curso"/>
+
+    <insert id="setRegistrarDocente">
+        insert into docentes values(#id_docente#,#id_persona#,#id_titulo#,#id_tipo_categoria#,#cargahoraria#,#salario#);
+    </insert>
+
+    <select id="getCursosByIdDocenteAndIdGestion" resultClass="CursoMateria">
+        select distinct (id_curso),id_gestion,id_docente,
+        (SELECT (curso||' de '||ciclo) as field FROM cursos WHERE id_curso=curso_materias.id_curso) AS curso
+        FROM curso_materias
+        WHERE id_docente=#id_docente# and id_gestion=#id_gestion# and estado=true
+        ORDER BY id_curso;
+    </select>
+
+    <select id="getMateriasByIdCursoAndIdGestionAndIdDocente" resultClass="CursoMateria">
+        SELECT cm.*,m.materia
+        FROM curso_materias cm, materias m
+        WHERE cm.id_docente=#id_docente# and cm.id_curso=#id_curso# and cm.id_gestion=#id_gestion# and cm.id_materia=m.id_materia and cm.estado=true
+        ORDER BY cm.id_materia
+    </select>
+    <select id="getCursosTutorByIdDocenteAndIdGestion" resultClass="Curso">
+        select distinct(cm.id_curso),c.curso,c.ciclo
+        from curso_materias cm, cursos c
+        where id_docente_tutor=#id_docente_tutor# and estado=true and id_gestion=#id_gestion# and cm.id_curso=c.id_curso
+    </select>
+    <!--select id="getCursosAsignadosRegistrarFaltasByIdDocenteAndIdGestion" resultClass="Curso">
+        select distinct(cm.id_curso),c.curso,c.ciclo
+        from curso_materias cm, cursos c
+        where id_docente_regfaltas=#id_docente_regfaltas# and estado=true and id_gestion=#id_gestion# and cm.id_curso=c.id_curso
+    </select-->
+</sqlMap>

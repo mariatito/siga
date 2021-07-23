@@ -1,0 +1,57 @@
+.dhtmlwindow{
+position: absolute;
+border: 0px solid #CCCCCC;
+border-right: 3px solid #CCCCCC;
+border-bottom: 3px solid #CCCCCC;
+visibility: hidden;
+background-color: white;
+}
+
+.drag-handle{
+padding: 3px;
+text-indent: 10px;
+background: rgb(229, 233, 237);
+font-weight: bold;
+color: white;
+cursor: move;
+overflow: hidden;
+width: auto;
+filter:progid:DXImageTransform.Microsoft.alpha(opacity=100);
+-moz-opacity: 1;
+opacity: 1;
+}
+
+.drag-handle .drag-controls{
+position: absolute;
+right: 1px;
+top: 2px;
+cursor: hand;
+cursor: pointer;
+}
+
+* html .drag-handle{ 
+width: 100%;
+}
+
+
+.drag-contentarea{ 
+background-color: white;
+height: 150px;
+padding: 2px;
+overflow: auto;
+}
+
+.drag-statusarea{ /*CSS for Status Bar div (includes resizearea)*/
+border-top: 1px solid #CCCCCC;
+background-color: rgb(229, 233, 237);
+height: 13px; /*height of resize image*/
+}
+
+
+.drag-resizearea{ /*CSS for Resize Area itself*/
+float: right;
+width: 13px; /*width of resize image*/
+height: 13px; /*height of resize image*/
+cursor: nw-resize;
+font-size: 0;
+}

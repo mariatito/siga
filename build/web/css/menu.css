@@ -1,0 +1,97 @@
+body {
+    margin: 0px 0px 0px 0px;
+    overflow: hidden; 
+    font-family:Comic Sans MS, Helvetica, sans-serif;
+    font-size:80%;
+    background-color: #ECECFF;
+}
+.null { display: none; }
+
+
+.greenbox {
+    border-color: #7dbe0b;
+    border-style: solid;
+    border-width: 1px;	
+    background-color:#dcf0b9;
+    font-size: 11px;
+    font-family: arial;
+
+}
+#bookmark {
+    margin-top: 20px;
+    margin-left: 40px;
+}
+#infobox {
+    padding: 4px 4px 4px 4px;
+}
+#footer {
+    margin-top: 25px;
+    bottom: 0px;
+    margin-bottom: 0px;
+    font-size: 9px;
+    font-family: arial;
+
+
+}
+#more {
+    display:none;
+    float:right;
+    font-size: 11px;
+    font-family: arial;
+
+}
+#topbox {
+}
+#loginpanel {
+    padding:0px 0px 0px 0px;
+    /* width:400px; */
+    height:400px;
+    background: #FFFFFF url('../imagenes/login-backimage.jpg') no-repeat;
+}
+#footermain {
+    padding: 0px 0px 0px 0px;
+    background: url('../imagenes/gradlogbot.jpg') repeat;
+    height:70px;
+}
+.labelTxt {
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.textfield-out {
+    font-size: 11px;
+    border: 1px solid #CCCCCC;
+    margin-left: 1px;
+    margin-top: 1px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 2px;
+    margin-bottom: 1px;
+}
+.textfield-over {
+    font-size: 11px;
+    border: 1px solid #000000;
+    margin-left: 1px;
+    margin-top: 1px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 2px;
+    margin-bottom: 1px;
+    background-color: #CCCCCC;
+}
+.button {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 10pt;
+    cursor: pointer;
+}
+
+#menuHead {
+    background:url(../imagenes/ban_all.gif) repeat-x left top;
+    }
+.treenode {
+    padding-left: 10px;
+    width: 20px
+}
+a {
+    text-decoration: none;
+    color: #000000;
+}

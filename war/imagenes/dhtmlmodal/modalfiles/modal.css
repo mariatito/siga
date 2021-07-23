@@ -1,0 +1,15 @@
+.drag-handle{ 
+background-color: #006666;
+}
+
+#interVeil{ /*CSS for veil that covers entire page while modal window is visible*/
+position: absolute;
+background: black;
+width: 10px;
+left: 0;
+top: 0;
+z-index: 5;
+visibility: hidden;
+filter:progid:DXImageTransform.Microsoft.alpha(opacity=40);
+opacity: 0.4;
+}

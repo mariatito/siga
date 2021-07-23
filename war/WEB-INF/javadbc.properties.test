@@ -1,0 +1,8 @@
+# Properties file with JDBC-related settings.
+# Applied by PropertyPlaceholderConfigurer from "dataAccessContext-local.xml".
+# Targeted at system administrators, to avoid touching the context XML files.
+
+javadbc.driverClassName=org.postgresql.Driver
+javadbc.url=jdbc:postgresql://localhost:5433/sigaa20210429
+javadbc.username=postgres
+javadbc.password=123456
